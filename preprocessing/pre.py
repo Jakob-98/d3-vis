@@ -7,7 +7,7 @@ import pandas as pd
 
 
 # %%
-trading = pd.read_csv(r'../data/europe/eu-ets_csv.txt')
+trading = pd.read_csv(r'../dataset/ETS_Database_v38.tsv')
 
 # %%
 emission = pd.read_excel(r'../data/europe/co2.xlsx', sheet_name='Sheet 1')
