@@ -56,7 +56,10 @@ for ix, row in trading.iterrows():
         continue
     trading.loc[ix, 'CO2_emission'] = co
 
+# %%
+trading.dropna(inplace=True)
 
 # %%
-trading.to_csv(r'../dataset/processed.csv')
+trading.to_csv(r'../dataset/processed2.csv')
+
 # %%
