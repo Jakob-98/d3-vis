@@ -6,7 +6,7 @@ import pandas as pd
 
 # %%
 trading = pd.read_csv(r'../dataset/ETS_Database_v38.tsv', sep = '\t')
-trading.rename(columns = {'value':'traded_CO2'}, inplace=True) #renaming Country column
+trading.rename(columns = {'value':'CO2'}, inplace=True) #renaming Country column
 
 
 # %%
@@ -43,23 +43,32 @@ emission.Country.replace(['Germany (until 1990 former territory of the FRG)'], [
 # %%
 ec = [c for c in emission.Country.values]
 tc = set([c for c in trading.country.values])
-print([i for i in ec if i not in tc]) # -> turkey, switserland not found
-print([i for i in tc if i not in ec]) # -> need to rename Germany
+exclude = [i for i in ec if i not in tc] + [i for i in tc if i not in ec]
+ 
+
+# %% 
+trading = trading[~trading['country'].isin(exclude)]
+trading = trading[trading['year'] != 2019]
+emission = emission[~emission['Country'].isin(exclude)]
 
 # %%
-trading['CO2_emission'] = None
-for ix, row in trading.iterrows():
-    ctry, year = row.country, row.year
-    try: 
-        co = emission.loc[emission['Country'] == ctry][year].values[0]
-    except:
-        continue
-    trading.loc[ix, 'CO2_emission'] = co
+for _, row in emission.iterrows():
+    country = row.Country
+    for year in emission.columns[1:]:
+        trading = trading.append({
+            'country' : country,
+            'country_code' : 'TODO',
+            'ETS information' : 'SUM CO2 emitted',
+            'main activity sector name'	: 'Total CO2 emitted',
+            'unit' : 'tonne of CO2 equ.',
+            'CO2' : row[year],
+            'year' : year
+        }, ignore_index=True)
 
 # %%
 trading.dropna(inplace=True)
 
 # %%
-trading.to_csv(r'../dataset/processed2.csv')
+trading.to_csv(r'../dataset/processed.csv')
 
 # %%
