@@ -5,13 +5,14 @@
   <!-- Local d3: -->
   <!-- <script type="text/javascript" src="src/d3/d3.js"></script>  -->
 
+
   <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
-
-  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-  <script src="../src/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
   <script src="../src/datamaps.world.min.js"></script>
-
+  <script src="../src/scripts.js"></script>
   <link rel="stylesheet" href="./src/style.css">
 
   <!-- TODO add high res -->
@@ -22,43 +23,8 @@
   <h2 style="text-align:center">Relating CO2 emissions accross europe to their sectors</h1>
   <div id="map"></div> 
   <!-- style='width:100vh; height:100vh;'></div> -->
+  <div id="chartcontainer">
+    <canvas id="chart" width="200" height="200"></canvas>
+  </div>
+  
 
-  <script>
-      var bubble_map = new Datamap({
-        element: document.getElementById('map'),
-        scope: 'europe',
-        geographyConfig: {
-          popupOnHover: true,
-          highlightOnHover: true,
-          borderColor: '#0B4152',
-          borderWidth: 1.5,
-          // source: https://github.com/leakyMirror/map-of-europe/blob/master/TopoJSON/europe.topojson
-          dataUrl: './src/europe.topojson'
-          //dataJson: topoJsonData
-        },
-        fills: {
-          'MAJOR': '#306596',
-          'MEDIUM': '#0fa0fa',
-          'MINOR': '#bada55',  
-          defaultFill: '#ffdd00'
-        },
-        data: {
-            'CY': { fillKey: 'MINOR' },
-            'NL': { fillKey: 'MINOR' },
-            'DE': { fillKey: 'MINOR' }
-        },
-        setProjection: function (element) {
-          var projection = d3.geo.equirectangular()
-            .center([10, 50])
-            .rotate([4.4, 0])
-            .scale(750)
-            .translate([element.offsetWidth / 3, element.offsetHeight / 2]);
-          var path = d3.geo.path()
-            .projection(projection);
-          return { path: path, projection: projection };
-        }
-      });
-  </script>
-</body>
-
-</html>
