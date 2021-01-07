@@ -1,6 +1,7 @@
 # %%
 import os
 import pandas as pd
+import json
 
 
 
@@ -71,4 +72,14 @@ trading.dropna(inplace=True)
 # %%
 trading.to_csv(r'../dataset/processed.csv')
 
+# %%
+with open(r'../src/europe.topojson') as f: 
+    txt = json.load(f)
+# %%
+ctrylist = []
+for ctry in txt['objects']['europe']['geometries']:
+    ctrylist.append(ctry['properties']['name'])
+# %%
+print('in map, not in data:', [c for c in ctrylist if c not in trading.country.values])
+print('in data, not in map:', set([c for c in trading.country.values if c not in ctrylist]))
 # %%
