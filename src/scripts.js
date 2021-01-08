@@ -1,25 +1,42 @@
 // GLOBALS
 var mousecountry = "";
+var oldcountry = ""
 var chart;
 
 
 // FUNCTIONS
 function onMouseUpdate(e) {
-    x = e.pageX;
-    y = e.pageY;
-    if(mousecountry){
-        $("#chart").css({
-            position:"absolute",
-            top:y, 
-            left: x,
-            display: 'Block'
-            });
-        // chart neem data mee van land... 
+  x = e.pageX;
+  y = e.pageY;
+  if (mousecountry) {
+    $("#chart").css({
+      position: "absolute",
+      top: y,
+      left: x,
+      display: 'Block'
+    });
+    
+    if (mousecountry != oldcountry){
+      oldcountry = mousecountry
+
+      //updating chart
+      // TODO Define data here based on country
+      let data = getdummydata()
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+      });            
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+      });
+      chart.options.title.text = 'CO2 emission of: ' + mousecountry;
+      chart.update()
     }
-    else{
-      $("#chart").css({display: 'None'});
-    }
+  }
+  else {
+    $("#chart").css({ display: 'None' });
+  }
 }
+
 
 
 let initMap = function(){
@@ -99,7 +116,6 @@ let chartoptions = {
     title: {
         position: 'bottom',
         display: true,
-        text:'CO2 emission of [TODO]',
     },
     legend: {
         display: false
@@ -113,39 +129,62 @@ let chartoptions = {
     }
 }
   
-
-console.log(mousecountry)
-
 let initChart = function(){
     var ctx = document.getElementById('chart').getContext('2d');
     chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                data: [20, 0, 30, 0, 0, 0],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 2.5
-            }]
-        },
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [{
+              label: "Unfilled",
+              fill: false,
+              backgroundColor: window.chartColors.blue,
+              borderColor: window.chartColors.blue,
+              data: [
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor()
+              ],
+          }, {
+              label: "Dashed",
+              fill: false,
+              backgroundColor: window.chartColors.green,
+              borderColor: window.chartColors.green,
+              borderDash: [5, 5],
+              data: [
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor()
+              ],
+          }, {
+              label: "Filled",
+              backgroundColor: window.chartColors.red,
+              borderColor: window.chartColors.red,
+              data: [
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor(),
+                  randomScalingFactor()
+              ],
+              fill: true,
+          }]
+      },
         options: chartoptions
     }); 
 }
+
+
 
 // /// Slider
 
@@ -310,7 +349,75 @@ let initChart = function(){
 
 
 
+// zooi voor dummy data
+let getdummydata = function(){
+    let datasets = [{
+        label: "Unfilled",
+        fill: false,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 0.2)',
+        data: [
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor()
+        ],
+    }, {
+        label: "Dashed",
+        fill: false,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 0.2)',
+        borderDash: [5, 5],
+        data: [
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor()
+        ],
+    }, {
+        label: "Filled",
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 0.2)',
+        data: [
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor()
+        ],
+        fill: true,
+    }]
+    return datasets
 
+  }
+
+
+  window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+
+
+window.randomScalingFactor = function() {
+	return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+};
+
+
+
+/// end zooi voor dummy data
 
 
 $(document).ready(function(){
