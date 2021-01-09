@@ -2,9 +2,10 @@
 var mousecountry = "";
 var oldcountry = ""
 var chart;
+//default sector
+let sector = 'Total CO2 emitted';
+const years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'];
 let x, y;
-
-
 
 import {data} from './data.js';
 
@@ -13,37 +14,35 @@ function getEmission(sector, country, year){
   let emission = -1
   for (var i = 0; i < data.length; i++) {
     if (data[i]['country'] == country 
-    && data[i]['main activity sector name'] == sector
+    && data[i]['main activity sector name'].includes(sector)
     && data[i]['year'] == year ){
       emission = data[i]['CO2']
       break
     }
   }
-  return emission
+  return data.filter(d => d.country == country && d.year == year && d['main activity sector name'].includes(sector))[0];
+  // return emission
 }
 
-//temp sector name for import
-let sector = 'Total CO2 emitted';
-
+function updateSector(s){
+  sector = s;
+}
 
 function getDataset(country, sector){
+  let emissions = years.map(year => getEmission(sector, country, year));
 
-  let years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'];
-  let emissions = years.map(x => getEmission(sector, country, x));
-
-  let datasets = [{
-    label: years,
-    fill: false,
-    backgroundColor: window.chartColors.blue,
-    borderColor: window.chartColors.blue,
-    data: emissions
-  }];
-  return dataset;
+  // let datasets = [{
+  //   label: years,
+  //   fill: false,
+  //   backgroundColor: window.chartColors.blue,
+  //   borderColor: window.chartColors.blue,
+  //   data: emissions
+  // }];
+  // return datasets;
+  console.log(emissions);
+  return emissions.map(e => e['CO2'] != null ? e[CO2] : -1);
+  // return emissions
 }
-
-
-
-
 
 // FUNCTIONS
 function onMouseUpdate(e) {
@@ -59,16 +58,16 @@ function onMouseUpdate(e) {
     
     if (mousecountry != oldcountry){
       oldcountry = mousecountry
-
-      //updating chart
-      // TODO Define data here based on country
-      let data = getdummydata()
-      chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-      });            
-      chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-      });
+      chart.config.data = {
+        labels: years,
+        datasets: [{
+          label: 'huts',
+          fill: false,
+          backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          data: getDataset(mousecountry, sector)
+        }]
+      }
       chart.options.title.text = 'CO2 emission of: ' + mousecountry;
       chart.update()
     }
@@ -77,7 +76,6 @@ function onMouseUpdate(e) {
     $("#chart").css({ display: 'None' });
   }
 }
-
 
 
 let initMap = function(){
@@ -465,5 +463,11 @@ $(document).ready(function(){
     initMap();
     initChart();
     document.addEventListener('mousemove', onMouseUpdate, false);
+
+    $('#sector').change(function(){
+        let selected_value = $("input[name='sector-type']:checked").val();
+        console.log(selected_value);
+        updateSector(selected_value);
+    });
   });
   
