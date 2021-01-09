@@ -2,6 +2,47 @@
 var mousecountry = "";
 var oldcountry = ""
 var chart;
+let x, y;
+
+
+
+import {data} from './data.js';
+
+// Gets the emissions in accordance to data
+function getEmission(sector, country, year){
+  let emission = -1
+  for (var i = 0; i < data.length; i++) {
+    if (data[i]['country'] == country 
+    && data[i]['main activity sector name'] == sector
+    && data[i]['year'] == year ){
+      emission = data[i]['CO2']
+      break
+    }
+  }
+  return emission
+}
+
+//temp sector name for import
+let sector = 'Total CO2 emitted';
+
+
+function getDataset(country, sector){
+
+  let years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'];
+  let emissions = years.map(x => getEmission(sector, country, x));
+
+  let datasets = [{
+    label: years,
+    fill: false,
+    backgroundColor: window.chartColors.blue,
+    borderColor: window.chartColors.blue,
+    data: emissions
+  }];
+  return dataset;
+}
+
+
+
 
 
 // FUNCTIONS
@@ -46,8 +87,8 @@ let initMap = function(){
     geographyConfig: {
       popupOnHover: true,
       highlightOnHover: true,
-      borderColor: '#0B4152',
-      borderWidth: 1.5,
+      borderColor: '#000000',
+      borderWidth: 1,
       // source: https://github.com/leakyMirror/map-of-europe/blob/master/TopoJSON/europe.topojson
       dataUrl: './src/europe.topojson'
       //dataJson: topoJsonData
