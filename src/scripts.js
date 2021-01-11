@@ -11,15 +11,15 @@ import {data} from './data.js';
 
 // Gets the emissions in accordance to data
 function getEmission(sector, country, year){
-  let emission = -1
-  for (var i = 0; i < data.length; i++) {
-    if (data[i]['country'] == country 
-    && data[i]['main activity sector name'].includes(sector)
-    && data[i]['year'] == year ){
-      emission = data[i]['CO2']
-      break
-    }
-  }
+  // let emission = -1
+  // for (var i = 0; i < data.length; i++) {
+  //   if (data[i]['country'] == country 
+  //   && data[i]['main activity sector name'].includes(sector)
+  //   && data[i]['year'] == year ){
+  //     emission = data[i]['CO2']
+  //     break
+  //   }
+  // }
   return data.filter(d => d.country == country && d.year == year && d['main activity sector name'].includes(sector))[0];
   // return emission
 }
@@ -31,16 +31,8 @@ function updateSector(s){
 function getDataset(country, sector){
   let emissions = years.map(year => getEmission(sector, country, year));
 
-  // let datasets = [{
-  //   label: years,
-  //   fill: false,
-  //   backgroundColor: window.chartColors.blue,
-  //   borderColor: window.chartColors.blue,
-  //   data: emissions
-  // }];
-  // return datasets;
-  console.log(emissions);
-  return emissions.map(e => e['CO2'] != null ? e[CO2] : -1);
+  // return all non-undefined values
+  return emissions.filter(e => e);
   // return emissions
 }
 
@@ -58,17 +50,18 @@ function onMouseUpdate(e) {
     
     if (mousecountry != oldcountry){
       oldcountry = mousecountry
+      let dataset = getDataset(mousecountry, sector);
       chart.config.data = {
-        labels: years,
+        labels: dataset.map(e => e.year),
         datasets: [{
-          label: 'huts',
+          label: "",
           fill: false,
           backgroundColor: window.chartColors.blue,
           borderColor: window.chartColors.blue,
-          data: getDataset(mousecountry, sector)
+          data: dataset.map(e => e['CO2'])
         }]
       }
-      chart.options.title.text = 'CO2 emission of: ' + mousecountry;
+      chart.options.title.text = 'CO2 emission of: ' + sector + ' in ' + mousecountry;
       chart.update()
     }
   }
