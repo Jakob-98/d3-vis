@@ -73,13 +73,13 @@ div#content{
 #map {
     /* width: 80vw;  */
     /* height: 80vh; */
-    /* margin-right: auto;
-    margin-left: auto; */
-    /* position: fixed;
+    margin-right: auto;
+    margin-left: auto;
+    position: fixed;
     top: 50%;
-    left: 50%; */
-    /* -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); */
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 /*  timeline bar */
