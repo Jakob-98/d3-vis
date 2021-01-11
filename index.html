@@ -21,26 +21,31 @@
 
 <body>
   <h2 style="text-align:center">Relating CO2 emissions accross europe to their sectors</h1>
-  <div id="sector">
-    <input type="radio" name="sector-type" value="Total CO2 emitted" id="co2" checked />
-    <label for="co2">
-        total co2
-    </label>
-  
-    <input type="radio" name="sector-type" value="10 Aviation" id="aviation" />
-    <label for="aviation">
-        Aviation
-    </label>
-  
-    <input type="radio" name="sector-type" value="first" id="first" />
-    <label for="first">
-        First
-    </label>
+  <div class="split left" id="map">
+    <div id="sector">
+      <input type="radio" name="sector-type" value="Total CO2 emitted" id="co2" checked />
+      <label for="co2">
+          total co2
+      </label>
+    
+      <input type="radio" name="sector-type" value="10 Aviation" id="aviation" />
+      <label for="aviation">
+          Aviation
+      </label>
+    
+      <input type="radio" name="sector-type" value="first" id="first" />
+      <label for="first">
+          First
+      </label>
+    </div>
+    <div id="map"></div> 
+    <div id="chartcontainer">
+      <canvas id="chart"></canvas>
+    </div>
   </div>
-  <div id="map"></div> 
-  <!-- style='width:100vh; height:100vh;'></div> -->
-  <div id="chartcontainer">
-    <canvas id="chart"></canvas>
+  <div class="split right" id="details">
+
   </div>
+  
   
 

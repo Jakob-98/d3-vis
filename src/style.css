@@ -2,12 +2,36 @@ body {
     background-color: rgb(6, 7, 12);
     font-family: 'Work Sans', sans-serif;
 }
-
-
    
 h1, h2, h3, h4, h5, h6 {
     color:#f0f8ff;
     font-family: 'Crimson Text', serif;
+}
+
+/* Split screen */
+
+/* Split the screen in half */
+.split {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  width: 60%;
+  background-color: #111;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  width: 40%;
+  background-color: red;
 }
 
 #chart-container {
@@ -24,14 +48,14 @@ h1, h2, h3, h4, h5, h6 {
 
 #map {
     width: 80vw; 
-    height: 80vh;
+    /* height: 80vh; */
     /* margin-right: auto;
     margin-left: auto; */
-    position: fixed;
+    /* position: fixed;
     top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    left: 50%; */
+    /* -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 }
 
 /*  timeline bar */
@@ -97,7 +121,7 @@ h1, h2, h3, h4, h5, h6 {
 
   /* segmented control: */
 
-  #sector {
+#sector {
   display: flex;
   max-width: 336px;
   width: 100%;

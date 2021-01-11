@@ -4,22 +4,13 @@ var oldcountry = ""
 var chart;
 //default sector
 let sector = 'Total CO2 emitted';
-const years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'];
+const years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'];
 let x, y;
 
 import {data} from './data.js';
 
 // Gets the emissions in accordance to data
 function getEmission(sector, country, year){
-  // let emission = -1
-  // for (var i = 0; i < data.length; i++) {
-  //   if (data[i]['country'] == country 
-  //   && data[i]['main activity sector name'].includes(sector)
-  //   && data[i]['year'] == year ){
-  //     emission = data[i]['CO2']
-  //     break
-  //   }
-  // }
   return data.filter(d => d.country == country && d.year == year && d['main activity sector name'].includes(sector))[0];
   // return emission
 }
