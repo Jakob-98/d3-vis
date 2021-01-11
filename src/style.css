@@ -1,21 +1,21 @@
 body {
-  background-color: rgb(6, 7, 12);
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin:0;
   padding:0;
 }
    
 h1, h2, h3, h4, h5, h6 {
-    color:#f0f8ff;
-    font-family: 'Crimson Text', serif;
+  color:#f0f8ff;
+  /* font-family: 'Crimson Text', serif; */
 }
   
+/* header, footer and split screen */
 div#header{
   width:100%;
   height:65px;
   position:fixed;
   z-index:100;
-  background-color:#F00;
+  background: linear-gradient(to left, #283E51, #4B79A1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 } 
   
 div#footer{
@@ -23,41 +23,39 @@ div#footer{
   height:65px;
   position:fixed;
   bottom:0;
-  background-color: rgb(2, 39, 87);
+  background: linear-gradient(to left, #283E51, #4B79A1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 div#content{
-  background-color:#111;
+  background: linear-gradient(to right, #D39D38, #4DA0B0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width:100%;
   height:100%;
   position:absolute;
 }
     
-#columns-container {
+#splitcontainer {
   position:relative;
   height: 100%;
   width: 100%;
 }
 
 .split {
+  top: 65px;
+  bottom: 65px;
   position: absolute;
+  padding: 1em;
 }
 
 .split-left {
-  background-color: green;
-  top: 0;
-  bottom: 0;
   right: 40%;
   left: 0;
+  border-right: #000 4px solid;
 }
 
 .split-right {
-  background-color: yellow;
-  top: 0;
-  bottom: 0;
   right: 0;
   left: 60%;
+  overflow-y: scroll;  
 }
-
 
 /* chart on hover */
 #chart-container {
@@ -87,65 +85,65 @@ div#content{
 /*  timeline bar */
 
 #play-button {
-    position: absolute;
-    top: 140px;
-    left: 50px;
-    background: #f08080;
-    padding-right: 26px;
-    border-radius: 3px;
-    border: none;
-    color: white;
-    margin: 0;
-    padding: 0 12px;
-    width: 60px;
-    cursor: pointer;
-    height: 30px;
-  }
+  position: absolute;
+  top: 140px;
+  left: 50px;
+  background: #f08080;
+  padding-right: 26px;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  margin: 0;
+  padding: 0 12px;
+  width: 60px;
+  cursor: pointer;
+  height: 30px;
+}
 
-  #play-button:hover {
-    background-color: #696969;
-  }   
+#play-button:hover {
+  background-color: #696969;
+}   
 
-      
-  .ticks {
-    font-size: 10px;
-  }
+    
+.ticks {
+  font-size: 10px;
+}
 
-  .track,
-  .track-inset,
-  .track-overlay {
-    stroke-linecap: round;
-  }
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
 
-  .track {
-    stroke: #000;
-    stroke-opacity: 0.3;
-    stroke-width: 10px;
-  }
+.track {
+  stroke: #000;
+  stroke-opacity: 0.3;
+  stroke-width: 10px;
+}
 
-  .track-inset {
-    stroke: #dcdcdc;
-    stroke-width: 8px;
-  }
+.track-inset {
+  stroke: #dcdcdc;
+  stroke-width: 8px;
+}
 
-  .track-overlay {
-    pointer-events: stroke;
-    stroke-width: 50px;
-    stroke: transparent;
-    cursor: crosshair;
-  }
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
 
-  .handle {
-    fill: #fff;
-    stroke: #000;
-    stroke-opacity: 0.5;
-    stroke-width: 1.25px;
-  }
-
-
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
 
 
-  /* segmented control: */
+
+
+/* segmented control: */
 
 #sector {
   display: flex;
