@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>CO2 trade in the EU</title>
 
-<head>
-  <!-- Local d3: -->
-  <!-- <script type="text/javascript" src="src/d3/d3.js"></script>  -->
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script src="../src/datamaps.world.min.js"></script>
+    <script src="../src/scripts.js" type='module'></script>
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
 
-
-  <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Work+Sans:400,700" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-  <script src="../src/datamaps.world.min.js"></script>
-  <script src="../src/scripts.js" type='module'></script>
-  <link rel="stylesheet" href="./src/style.css">
-
-  <!-- TODO add high res -->
-  <!-- https://datamaps.github.io/hi-res.html -->
-</head>
-
-<body>
-  <h2 style="text-align:center">Relating CO2 emissions accross europe to their sectors</h1>
-  <div class="split left" id="map">
-    <div id="sector">
-      <input type="radio" name="sector-type" value="Total CO2 emitted" id="co2" checked />
-      <label for="co2">
-          total co2
-      </label>
-    
-      <input type="radio" name="sector-type" value="10 Aviation" id="aviation" />
-      <label for="aviation">
-          Aviation
-      </label>
-    
-      <input type="radio" name="sector-type" value="first" id="first" />
-      <label for="first">
-          First
-      </label>
+  <body>
+    <div class="header">
+      <h2 style="text-align:center">Relating CO2 emissions accross europe to their sectors</h1>
     </div>
-    <div id="map"></div> 
-    <div id="chartcontainer">
-      <canvas id="chart"></canvas>
+    <div id="content">
+      <div id="splitcontainer">
+        <div class="split split-left">
+          <div id="sector">
+            <input type="radio" name="sector-type" value="Total CO2 emitted" id="co2" checked />
+            <label for="co2">
+                total co2
+            </label>
+          
+            <input type="radio" name="sector-type" value="10 Aviation" id="aviation" />
+            <label for="aviation">
+                Aviation
+            </label>
+          
+            <input type="radio" name="sector-type" value="first" id="first" />
+            <label for="first">
+                First
+            </label>
+          </div>
+          <div id="map"></div> 
+          <div id="chartcontainer">
+            <canvas id="chart"></canvas>
+          </div>
+        </div>
+        <div class="split split-right" id="details">
+      
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="split right" id="details">
-
-  </div>
-  
+    <div id="footer">
+      
+    </div>
+  </body>
+</html>
   
 

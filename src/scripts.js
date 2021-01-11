@@ -65,6 +65,7 @@ function onMouseUpdate(e) {
 let initMap = function(){
   var bubble_map = new Datamap({
     element: document.getElementById('map'),
+    responsive: true,
     scope: 'europe',
     geographyConfig: {
       popupOnHover: true,

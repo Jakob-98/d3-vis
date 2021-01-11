@@ -1,39 +1,65 @@
 body {
-    background-color: rgb(6, 7, 12);
-    font-family: 'Work Sans', sans-serif;
+  background-color: rgb(6, 7, 12);
+  font-family: 'Work Sans', sans-serif;
+  margin:0;
+  padding:0;
 }
    
 h1, h2, h3, h4, h5, h6 {
     color:#f0f8ff;
     font-family: 'Crimson Text', serif;
 }
-
-/* Split screen */
-
-/* Split the screen in half */
-.split {
+  
+div#header{
+  width:100%;
+  height:65px;
+  position:fixed;
+  z-index:100;
+  background-color:#F00;
+} 
+  
+div#footer{
+  width:100%;
+  height:65px;
+  position:fixed;
+  bottom:0;
+  background-color: rgb(2, 39, 87);
+}
+div#content{
+  background-color:#111;
+  width:100%;
+  height:100%;
+  position:absolute;
+}
+    
+#columns-container {
+  position:relative;
   height: 100%;
-  position: fixed;
-  z-index: 1;
+  width: 100%;
+}
+
+.split {
+  position: absolute;
+}
+
+.split-left {
+  background-color: green;
   top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-/* Control the left side */
-.left {
+  bottom: 0;
+  right: 40%;
   left: 0;
-  width: 60%;
-  background-color: #111;
 }
 
-/* Control the right side */
-.right {
+.split-right {
+  background-color: yellow;
+  top: 0;
+  bottom: 0;
   right: 0;
-  width: 40%;
-  background-color: red;
+  left: 60%;
 }
 
+
+/* chart on hover */
 #chart-container {
     z-index: 1;
     border: 1px black solid;
@@ -47,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #map {
-    width: 80vw; 
+    /* width: 80vw;  */
     /* height: 80vh; */
     /* margin-right: auto;
     margin-left: auto; */
@@ -124,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
 #sector {
   display: flex;
   max-width: 336px;
-  width: 100%;
+  /* width: 100%; */
   position: relative;
   user-select: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
