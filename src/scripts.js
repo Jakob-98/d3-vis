@@ -73,13 +73,14 @@ let initMap = function(){
       borderColor: '#000000',
       borderWidth: 1,
       // source: https://github.com/leakyMirror/map-of-europe/blob/master/TopoJSON/europe.topojson
-      dataUrl: './src/europe.topojson'
+      dataUrl: './src/eu.topojson'
       //dataJson: topoJsonData
     },
     fills: {
       'MAJOR': '#306596',
       'MEDIUM': '#0fa0fa',
-      'MINOR': '#bada55',  
+      'MINOR': '#bada55', 
+      'DISABLED': '#dddddd', 
       defaultFill: '#ffdd00'
     },
     data: {
@@ -89,9 +90,9 @@ let initMap = function(){
     },
     setProjection: function (element) {
       var projection = d3.geo.equirectangular()
-        .center([10, 50])
-        .rotate([4.4, 0])
-        .scale(750)
+        .center([0, 50])
+        .rotate([4, 0])
+        .scale(1000)
         .translate([element.offsetWidth / 3, element.offsetHeight / 2]);
       var path = d3.geo.path()
         .projection(projection);
@@ -336,15 +337,6 @@ let initChart = function(){
     purple: 'rgb(153, 102, 255)',
     grey: 'rgb(201, 203, 207)'
   };
-
-
-window.randomScalingFactor = function() {
-	return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-};
-
-
-
-/// end zooi voor dummy data
 
 
 $(document).ready(function(){
