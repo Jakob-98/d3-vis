@@ -1,6 +1,7 @@
 // GLOBALS
 var mousecountry = "";
 var oldcountry = ""
+var map;
 var chart;
 //default sector
 let sector = 'Total CO2 emitted';
@@ -34,14 +35,14 @@ function onMouseUpdate(e) {
   if (mousecountry) {
     $("#chart").css({
       position: "absolute",
-      top: y,
+      top: y-65,
       left: x,
       display: 'Block'
     });
     
     if (mousecountry != oldcountry){
       oldcountry = mousecountry
-      let dataset = getDataset(mousecountry, sector);
+      let dataset = getDataset(mousecountry.properties.name, sector);
       chart.config.data = {
         labels: dataset.map(e => e.year),
         datasets: [{
@@ -52,7 +53,7 @@ function onMouseUpdate(e) {
           data: dataset.map(e => e['CO2'])
         }]
       }
-      chart.options.title.text = 'CO2 emission of: ' + sector + ' in ' + mousecountry;
+      chart.options.title.text = 'CO2 emission of: ' + sector + ' in ' + mousecountry.properties.name;
       chart.update()
     }
   }
@@ -63,7 +64,7 @@ function onMouseUpdate(e) {
 
 
 let initMap = function(){
-  var bubble_map = new Datamap({
+  map = new Datamap({
     element: document.getElementById('map'),
     responsive: true,
     scope: 'europe',
@@ -79,14 +80,13 @@ let initMap = function(){
     fills: {
       'MAJOR': '#306596',
       'MEDIUM': '#0fa0fa',
-      'MINOR': '#bada55', 
-      'DISABLED': '#dddddd', 
+      'SELECTED': '#bada55', 
       defaultFill: '#ffdd00'
     },
     data: {
-        'CY': { fillKey: 'MINOR' },
-        'NL': { fillKey: 'MINOR' },
-        'DE': { fillKey: 'MINOR' }
+        // 'CY': { fillKey: 'MINOR' },
+        // 'NL': { fillKey: 'MINOR' },
+        // 'DE': { fillKey: 'MINOR' }
     },
     setProjection: function (element) {
       var projection = d3.geo.equirectangular()
@@ -101,12 +101,16 @@ let initMap = function(){
 
     done: function(datamap) {
       datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-        //   console.log(geography);
-          alert(geography.properties.name);
+          console.log(geography);
+          // alert(geography.properties.name);
+          map.updateChoropleth({
+            [geography.id]: {fillKey: 'SELECTED'}
+          });
       });
       datamap.svg.selectAll('.datamaps-subunit').on('mouseover', function(geography) {
-        //   console.log(geography);
-        mousecountry = geography.properties.name;
+        // remove geometry for performance
+        delete geography.geometry;
+        mousecountry = geography;
         // $("#chart").css( {position:"absolute", display: "Inline"});
           // update chart data
       });
