@@ -60,14 +60,16 @@ div#content{
 /* chart on hover */
 #chart-container {
     z-index: 1;
-    border: 1px black solid;
 }
 #chart {
     display:none;
     pointer-events: none;
-    background-color: white;
+    background-color: whitesmoke;
     width: 350px;
     height: 350px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 #map {
