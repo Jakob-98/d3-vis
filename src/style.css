@@ -46,14 +46,14 @@ div#content{
 }
 
 .split-left {
-  right: 60%;
+  right: 40%;
   left: 0;
   border-right: #000 4px solid;
 }
 
 .split-right {
   right: 0;
-  left: 40%;
+  left: 60%;
   overflow-y: scroll;  
 }
 
@@ -222,6 +222,7 @@ div#content{
 /* legend */
 .legend {
   font-size: 14px;
+  right: 150px;
 }
 rect {
   cursor: pointer; 
@@ -232,12 +233,17 @@ rect.disabled {
 }
 
 /* chart */
+.piecontainer{
+  max-width: 300px; 
+  padding-left: -0.1em;
+}
+
 #piechart {
-  height: 800px;
+  height: 600px;
   margin: 0 auto;
   position: relative;
   display: block;
-  width: 1200px;
+  width: 300px;
 }
 
 /* tooltip */

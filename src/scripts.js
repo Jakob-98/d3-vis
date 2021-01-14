@@ -384,15 +384,15 @@ var dataset = getPieData(piecountry, chartETS)//.slice(0,10);
 // ];
 
 // chart dimensions
-var width = 900;
-var height = 600;
+var width = 700;
+var height = 500;
 
 // a circle chart needs a radius
 var radius = Math.min(width, height) / 2;
 
 // legend dimensions
-var legendRectSize = 15; // defines the size of the colored squares in legend
-var legendSpacing = 4; // defines spacing between squares
+var legendRectSize = 17; // defines the size of the colored squares in legend
+var legendSpacing = 6; // defines spacing between squares
 
 // define color scale
 var color = d3.scale.category20b();
@@ -400,10 +400,10 @@ var color = d3.scale.category20b();
 
 var svg = d3.select('#piechart') // select element in the DOM with id 'chart'
 .append('svg') // append an svg element to the element we've selected
-.attr('width', width) // set the width of the svg element we just added
+.attr('width', width + 250) // set the width of the svg element we just added
 .attr('height', height) // set the height of the svg element we just added
 .append('g') // append 'g' element to the svg element
-.attr('transform', 'translate(' + (width / 4) + ',' + (height / 4) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
+.attr('transform', 'translate(' + (width / 2.75) + ',' + (height / 2) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
 
 var arc = d3version6.arc()
 .innerRadius(0) // none for pie chart
