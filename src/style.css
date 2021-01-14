@@ -46,14 +46,14 @@ div#content{
 }
 
 .split-left {
-  right: 40%;
+  right: 60%;
   left: 0;
   border-right: #000 4px solid;
 }
 
 .split-right {
   right: 0;
-  left: 60%;
+  left: 40%;
   overflow-y: scroll;  
 }
 
@@ -237,7 +237,7 @@ rect.disabled {
   margin: 0 auto;
   position: relative;
   display: block;
-  width: 800px;
+  width: 1200px;
 }
 
 /* tooltip */
@@ -257,7 +257,7 @@ rect.disabled {
 }
 
 .footer {
-  padding-top: 50px;
+  padding-top: 100px;
   text-align: center;
   list-style-type: none;
 }

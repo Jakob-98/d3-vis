@@ -384,15 +384,15 @@ var dataset = getPieData(piecountry, chartETS)//.slice(0,10);
 // ];
 
 // chart dimensions
-var width = 1200;
-var height = 800;
+var width = 900;
+var height = 600;
 
 // a circle chart needs a radius
 var radius = Math.min(width, height) / 2;
 
 // legend dimensions
-var legendRectSize = 25; // defines the size of the colored squares in legend
-var legendSpacing = 6; // defines spacing between squares
+var legendRectSize = 15; // defines the size of the colored squares in legend
+var legendSpacing = 4; // defines spacing between squares
 
 // define color scale
 var color = d3.scale.category20b();
