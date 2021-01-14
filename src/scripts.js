@@ -349,39 +349,8 @@ let getPieData = function(piecountry, chartETS){
 };
 
 
-
 var dataset = getPieData(piecountry, chartETS)//.slice(0,10);
-
-// // define data
-// var dataset = [
-//   {label: "Assamese", count: 13},
-//   {label: "Bengali", count: 83},
-//   {label: "Bodo", count: 1.4},
-//   {label: "Dogri", count: 2.3},
-//   {label: "Gujarati", count: 46},
-//   {label: "Hindi", count: 300},
-//   {label: "Kannada", count: 38},
-//   {label: "Kashmiri", count: 5.5},
-//   {label: "Konkani", count: 5},
-//   {label: "Maithili", count: 20},
-//   {label: "Malayalam", count: 33},
-//   {label: "Manipuri", count: 1.5},
-//   {label: "Marathi", count: 72},
-//   {label: "Nepali", count: 2.9},
-//   {label: "Oriya", count: 33},
-//   {label: "Punjabi", count: 29},
-//   {label: "Sanskrit", count: 0.01},
-//   {label: "Santhali", count: 6.5},
-//   {label: "Sindhi", count: 2.5},
-//   {label: "Tamil", count: 61},
-//   {label: "Telugu", count: 74},
-//   {label: "Urdu", count: 52},
-//   {label: "Urdu3", count: 52},
-//   {label: "Urdu4", count: 52},
-//   {label: "Urdu5", count: 52},
-//   {label: "Urdu6", count: 52},
-//   {label: "Urdu7", count: 52}
-// ];
+dataset = dataset.sort(function(a,b) { return b.count-a.count})
 
 // chart dimensions
 var width = 700;
@@ -411,7 +380,7 @@ var arc = d3version6.arc()
 
 var pie = d3version6.pie() // start and end angles of the segments
 .value(function(d) { return d.count; }) // how to extract the numerical data from each entry in our dataset
-.sort(null); // by default, data sorts in oescending value. this will mess with our animation so we set it to null
+// .sort(null); // by default, data sorts in oescending value. this will mess with our animation so we set it to null
 
 // define tooltip
 var tooltip = d3.select('#piechart') // select element in the DOM with id 'chart'
@@ -521,12 +490,13 @@ legend.append('rect') // append rectangle squares to legend
     .duration(750) // 
     .attrTween('d', function(d) { // 'd' specifies the d attribute that we'll be animating
       var interpolate = d3version6.interpolate(this._current, d); // this = current path element
-      this._current = interpolate(0); // interpolate between current value and the new value of 'd'
+      this._current = interpolate(1000); // interpolate between current value and the new value of 'd'
       return function(t) {
         return arc(interpolate(t));
       };
     });
 });
+
 
 // adding text to legend
 legend.append('text')                                    
