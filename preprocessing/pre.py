@@ -3,8 +3,11 @@ import os
 import pandas as pd
 import json
 
+#European Union Emissions Trading System (EU ETS) data from EUTL — European Environment Agency (europa.eu)
+# https://www.eea.europa.eu/data-and-maps/data/european-union-emissions-trading-scheme-14
 
 
+# https://ec.europa.eu/eurostat/databrowser/product/page/T2020_RD300
 # %%
 trading = pd.read_csv(r'../dataset/ETS_Database_v38.tsv', sep = '\t')
 trading.rename(columns = {'value':'CO2'}, inplace=True) #renaming Country column
@@ -40,6 +43,16 @@ emission = emission[:-8] #dropping last 8 rows
 emission.rename(columns = {'TIME':'Country'}, inplace=True) #renaming Country column
 emission.Country.replace(['Germany (until 1990 former territory of the FRG)'], ['Germany'], inplace=True) #see print below
 
+#Reformat sector removes unnecessary information from sector name
+def reformatSector(sector):
+    s = sector.split()
+    s = " ".join([i for i in s if not i.isnumeric()])
+    if len(s.split()) == 1: return s
+    if 'of' not in s: return s
+    return s.partition('of')[2].lstrip()
+
+trading['sector'] = trading['main activity sector name'].apply(reformatSector)
+
 
 # %%
 ec = [c for c in emission.Country.values]
@@ -52,15 +65,19 @@ trading = trading[~trading['country'].isin(exclude)]
 trading = trading[trading['year'] != 2019]
 emission = emission[~emission['Country'].isin(exclude)]
 
+countrycodelookup = pd.Series(trading.country_code.values,index=trading.country).to_dict()
+
+
 # %%
 for _, row in emission.iterrows():
     country = row.Country
     for year in emission.columns[1:]:
         trading = trading.append({
             'country' : country,
-            'country_code' : 'TODO',
+            'country_code' : countrycodelookup.get(country, None),
             'ETS information' : 'SUM CO2 emitted',
-            'main activity sector name'	: 'Total CO2 emitted',
+            'main activity sector name'	: 'CO2 emission per capita',
+            'sector' : 'CO2 emission per capita',
             'unit' : 'tonne of CO2 equ.',
             'CO2' : row[year],
             'year' : year
@@ -72,9 +89,7 @@ trading.dropna(inplace=True)
 # %%
 trading.to_csv(r'../dataset/processed.csv')
 
-# %%
-with open(r'../src/europe.topojson') as f: 
-    txt = json.load(f)
+
 # %%
 ctrylist = []
 for ctry in txt['objects']['europe']['geometries']:
