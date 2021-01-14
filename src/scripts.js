@@ -391,11 +391,11 @@ var height = 500;
 var radius = Math.min(width, height) / 2;
 
 // legend dimensions
-var legendRectSize = 17; // defines the size of the colored squares in legend
-var legendSpacing = 6; // defines spacing between squares
+var legendRectSize = 17.5; // defines the size of the colored squares in legend
+var legendSpacing = 5; // defines spacing between squares
 
 // define color scale
-var color = d3.scale.category20b();
+var color = d3.scale.category20();
 // more color scales: https://bl.ocks.org/pstuffa/3393ff2711a53975040077b7453781a9
 
 var svg = d3.select('#piechart') // select element in the DOM with id 'chart'
