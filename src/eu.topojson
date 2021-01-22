@@ -812,15 +812,6 @@
 			}, {
 				"type": "Polygon",
 				"properties": {
-					"name": "Andorra"
-				},
-				"id": "AD",
-				"arcs": [
-					[461, -162]
-				]
-			}, {
-				"type": "Polygon",
-				"properties": {
 					"name": "Luxembourg"
 				},
 				"id": "LU",
