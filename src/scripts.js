@@ -390,7 +390,7 @@ let initTimeLine = function(){
   .tickValues(dataTime)
   .default(new Date(2005, 1, 1))
   .on('onchange', val => {
-    d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
+    // d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
     var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
     var countries = {};
     
@@ -450,12 +450,6 @@ let initTimeLine = function(){
   
   });
   gTime.call(sliderTime);
-
-  $('#sector').change(function(){
-      let selected_value = $("input[name='sector-type']:checked").val();
-      console.log(selected_value);
-      updateSector(selected_value);
-  });
 };
 
 $(document).ready(function(){
@@ -464,5 +458,11 @@ $(document).ready(function(){
     initTimeLine();
     createPie('Netherlands', chartETS, 2005)
     document.addEventListener('mousemove', onMouseUpdate, false);
+
+    $('#sector').change(function(){
+      let selected_value = $("input[name='sector-type']:checked").val();
+      console.log(selected_value);
+      updateSector(selected_value);
+    });
 
   });
