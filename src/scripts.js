@@ -4,7 +4,7 @@ var oldcountry = ""
 var map;
 var chart;
 //default sector
-let sector = 'Total CO2 emitted';
+let sector = 'CO2 emission per capita';
 const years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'];
 let x, y;
 let currentyear = 2015;
@@ -333,7 +333,7 @@ let initChart = function(){
     // }
 
 /// BEGIN zooi voor piechart
-let chartETS = '4. Total surrendered units';
+let chartETS = '2. Verified emissions';
 
 let piecountry = 'Netherlands';
 
@@ -341,7 +341,7 @@ let getPieData = function(piecountry, chartETS){
   let tmp = data.filter(d => d.country == piecountry && d.year == currentyear && d['ETS information'] == chartETS); 
   console.log(tmp)
   tmp = tmp.map(function(elm) {
-    return { label: elm['main activity sector name'], count: elm['CO2']};
+    return { label: elm['sector'], count: elm['CO2']};
  });
 
  return tmp;
