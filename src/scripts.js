@@ -373,12 +373,12 @@ legend.append('text')
     grey: 'rgb(201, 203, 207)'
   };
 
+function onTimeLineChange(val){
 
-$(document).ready(function(){
-    initMap();
-    initChart();
-    document.addEventListener('mousemove', onMouseUpdate, false);
+}
 
+// Timeline
+function initTimeLine(){
   var sliderTime = d3version6
   .sliderBottom()
   .min(d3version6.min(dataTime))
@@ -389,7 +389,7 @@ $(document).ready(function(){
   .tickValues(dataTime)
   .default(new Date(2005, 1, 1))
   .on('onchange', val => {
-     d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
+    d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
     var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
     var countries = {};
     
@@ -455,5 +455,15 @@ $(document).ready(function(){
         console.log(selected_value);
         updateSector(selected_value);
     });
+}
+
+
+$(document).ready(function(){
+    initMap();
+    initChart();
+    initTimeLine();
+    document.addEventListener('mousemove', onMouseUpdate, false);
+
+  
   });
   
