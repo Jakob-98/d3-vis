@@ -180,8 +180,6 @@ let initChart = function(){
     }); 
 }
 
-
-
 let createPie = function(piecountry, chartETS, currentyear){ 
   let getPieData = function(piecountry, chartETS){
     let tmp = data.filter(d => d.country == piecountry && d.year == currentyear && d['ETS information'] == chartETS); 
@@ -363,23 +361,108 @@ let createPie = function(piecountry, chartETS, currentyear){
       green: 'rgb(75, 192, 192)',
       blue: 'rgb(54, 162, 235)',
       purple: 'rgb(153, 102, 255)',
-      grey: 'rgb(201, 203, 207)'
+      grey: 'rgb(201, 203, 207)',
     };
 }
-/// BEGIN zooi voor piechart
 
 
+// Timeline
+let initTimeLine = function(){
+  var dataTime = d3version6.range(0, 16).map(function(d) {
+    return new Date(2005 + d, 1, 1);
+  });
+
+  var gTime = d3version6
+    .select('div#slider-time')
+    .append('svg')
+    .attr('width', 800)
+    .attr('height', 200)
+    .append('g')
+    .attr('transform', 'translate(50,50)');
+
+  var sliderTime = d3version6
+  .sliderBottom()
+  .min(d3version6.min(dataTime))
+  .max(d3version6.max(dataTime))
+  .step(1000 * 60 * 60 * 24 * 365)
+  .width(600)
+  .tickFormat(d3version6.timeFormat('%Y'))
+  .tickValues(dataTime)
+  .default(new Date(2005, 1, 1))
+  .on('onchange', val => {
+    d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
+    var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
+    var countries = {};
+    
+    countries['BE'] = getEmission(sector, "Belgium", yearr)['CO2'];
+    countries['DE'] = getEmission(sector, "Germany", yearr)['CO2'];
+    countries['PL'] = getEmission(sector, "Poland", yearr)['CO2']; //PL
+    countries['RO'] = getEmission(sector, "Romania", yearr)['CO2']; //RO
+    countries['IT'] = getEmission(sector, "Italy", yearr)['CO2'];//IT
+    countries['HU'] = getEmission(sector, "Hungary", yearr)['CO2'];//HU
+
+    countries['DK'] = getEmission(sector, "Denmark", yearr)['CO2'];//DK
+    countries['BG'] = getEmission(sector, "Bulgaria", yearr)['CO2'];//BG
+    countries['LI'] = getEmission(sector, "Liechtenstein", yearr)['CO2'];//LI
+    countries['SK'] = getEmission(sector, "Slovakia", yearr)['CO2'];//SK
+    countries['FI'] = getEmission(sector, "Finland", yearr)['CO2'];//FI 
+    countries['SE'] = getEmission(sector, "Sweden", yearr)['CO2'];//SE
+    countries['CZ'] = getEmission(sector, "Czechia", yearr)['CO2'];//CZ
+    countries['PT'] = getEmission(sector, "Portugal", yearr)['CO2'];//PT
+    countries['NL'] = getEmission(sector, "Netherlands", yearr)['CO2'];//NL 
+    countries['NO'] = getEmission(sector, "Norway", yearr)['CO2'];//NO 
+    countries['HR'] = getEmission(sector, "Croatia", yearr)['CO2'];//HR
+    countries['ES'] = getEmission(sector, "Spain", yearr)['CO2'];//ES
+    countries['FR'] = getEmission(sector, "France", yearr)['CO2'];//FR
+    countries['EE'] = getEmission(sector, "Estonia", yearr)['CO2'];//ES
+    countries['LU'] = getEmission(sector, "Luxembourg", yearr)['CO2'];//LU
+    countries['SI'] = getEmission(sector, "Slovenia", yearr)['CO2'];//SI
+    countries['IE'] = getEmission(sector, "Ireland", yearr)['CO2'];//IE
+    countries['CY'] = getEmission(sector, "Cyprus", yearr)['CO2'];//CY  
+    countries['LT'] = getEmission(sector, "Lithuania", yearr)['CO2'];//LT
+    countries['LV'] = getEmission(sector, "Latvia", yearr)['CO2'];//LV
+    countries['MT'] = getEmission(sector, "Malta", yearr)['CO2'];//MT 
+    countries['GR'] = getEmission(sector, "Greece", yearr)['CO2'];//GR
+    countries['GB'] = getEmission(sector, "United Kingdom", yearr)['CO2'];//GB
+    countries['AT'] = getEmission(sector, "Austria", yearr)['CO2'];//AT
+    countries['IS'] = getEmission(sector, "Iceland", yearr)['CO2'];//is
+    //console.log(Belgium['CO2']);
+
+
+  var sum = Object.values(countries).reduce(function (accumulator, value) {
+    return accumulator + value
+  }, 0)/30;
+  var level1 = 2 * sum/ 3 ;
+  var level2 = sum;
+
+  Object.keys(countries).forEach(c => {
+    let value = countries[c];
+    if (value < level1) {
+      map.updateChoropleth({[c]: { fillKey: 'MINOR' }});
+    }
+    else if (value < level2)  {
+      map.updateChoropleth({[c]: { fillKey: 'MEDIUM' }});
+    }
+    else {
+      map.updateChoropleth({[c]: { fillKey: 'MAJOR' }});
+    }
+  })
+  
+  });
+  gTime.call(sliderTime);
+
+  $('#sector').change(function(){
+      let selected_value = $("input[name='sector-type']:checked").val();
+      console.log(selected_value);
+      updateSector(selected_value);
+  });
+};
 
 $(document).ready(function(){
     initMap();
     initChart();
+    initTimeLine();
+    createPie('Netherlands', chartETS, 2000)
     document.addEventListener('mousemove', onMouseUpdate, false);
 
-    $('#sector').change(function(){
-        let selected_value = $("input[name='sector-type']:checked").val();
-        console.log(selected_value);
-        updateSector(selected_value);
-    });
-    createPie('Netherlands', chartETS, 2000)
   });
-  
