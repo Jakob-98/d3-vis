@@ -9,6 +9,7 @@
     <script>
       d3version6 = d3
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-simple-slider@1.10.3/dist/d3-simple-slider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script>
       d3version3 = d3
@@ -27,6 +28,7 @@
     </div>
     <div id="content">
       <div id="splitcontainer">
+        <p id="value-time"></p>
         <div class="split split-left">
           <div id="sector">
             <input type="radio" name="sector-type" value="Total CO2 emitted" id="co2" checked />
@@ -45,10 +47,7 @@
             </label>
           </div>
           
-          <div class="row align-items-center">
-            <div class="col-sm-2"><p id="value-time"></p></div>
-            <div class="col-sm"><div id="slider-time"></div></div>
-          </div> 
+          
           
           <div id="map"></div> 
           <div id="chartcontainer">
@@ -112,7 +111,9 @@
       </div>
     </div>
     <div id="footer">
-      
+      <div class="row align-items-center">
+        <div id="slider-time"></div>
+      </div> 
     </div>
   </body>
 </html>

@@ -4,7 +4,7 @@ var oldcountry = ""
 var map;
 var chart;
 //default sector
-let sector = 'Total CO2 emitted';
+let sector = 'CO2 emission per capita';
 const years = ['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'];
 let x, y;
 let currentyear = 2015;
@@ -379,7 +379,7 @@ $(document).ready(function(){
     initChart();
     document.addEventListener('mousemove', onMouseUpdate, false);
 
-  var slide = d3version6
+  var sliderTime = d3version6
   .sliderBottom()
   .min(d3version6.min(dataTime))
   .max(d3version6.max(dataTime))
@@ -391,371 +391,61 @@ $(document).ready(function(){
   .on('onchange', val => {
      d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
     var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
-    var Belgium = getEmission(sector, "Belgium", yearr)['CO2'];
-    var Germany = getEmission(sector, "Germany", yearr)['CO2'];
-    var Poland = getEmission(sector, "Poland", yearr)['CO2']; //PL
-    var Romania= getEmission(sector, "Romania", yearr)['CO2']; //RO
-    var Italy = getEmission(sector, "Italy", yearr)['CO2'];//IT
-    var Hungary = getEmission(sector, "Hungary", yearr)['CO2'];//HU
+    var countries = {};
+    
+    countries['BE'] = getEmission(sector, "Belgium", yearr)['CO2'];
+    countries['DE'] = getEmission(sector, "Germany", yearr)['CO2'];
+    countries['PL'] = getEmission(sector, "Poland", yearr)['CO2']; //PL
+    countries['RO'] = getEmission(sector, "Romania", yearr)['CO2']; //RO
+    countries['IT'] = getEmission(sector, "Italy", yearr)['CO2'];//IT
+    countries['HU'] = getEmission(sector, "Hungary", yearr)['CO2'];//HU
 
-    var Denmark = getEmission(sector, "Denmark", yearr)['CO2'];//DK
-    var Bulgaria = getEmission(sector, "Bulgaria", yearr)['CO2'];//BG
-    var Liechtenstein = getEmission(sector, "Liechtenstein", yearr)['CO2'];//LI
-    var Slovakia = getEmission(sector, "Slovakia", yearr)['CO2'];//SK
-    var Finland = getEmission(sector, "Finland", yearr)['CO2'];//FI 
-    var Sweden = getEmission(sector, "Sweden", yearr)['CO2'];//SE
-    var Czechia = getEmission(sector, "Czechia", yearr)['CO2'];//CZ
-    var Portugal = getEmission(sector, "Portugal", yearr)['CO2'];//PT
-    var Netherlands = getEmission(sector, "Netherlands", yearr)['CO2'];//NL 
-    var Norway = getEmission(sector, "Norway", yearr)['CO2'];//NO 
-    var Croatia = getEmission(sector, "Croatia", yearr)['CO2'];//HR
-    var Spain = getEmission(sector, "Spain", yearr)['CO2'];//ES
-    var France = getEmission(sector, "France", yearr)['CO2'];//FR
-    var Estonia = getEmission(sector, "Estonia", yearr)['CO2'];//ES
-    var Luxembourg = getEmission(sector, "Luxembourg", yearr)['CO2'];//LU
-    var Slovenia = getEmission(sector, "Slovenia", yearr)['CO2'];//SI
-    var Ireland = getEmission(sector, "Ireland", yearr)['CO2'];//IE
-    var Cyprus = getEmission(sector, "Cyprus", yearr)['CO2'];//CY  
-    var Lithuania = getEmission(sector, "Lithuania", yearr)['CO2'];//LT
-    var Latvia = getEmission(sector, "Latvia", yearr)['CO2'];//LV
-    var Malta = getEmission(sector, "Malta", yearr)['CO2'];//MT 
-    var Greece = getEmission(sector, "Greece", yearr)['CO2'];//GR
-    var United_Kingdom = getEmission(sector, "United Kingdom", yearr)['CO2'];//GB
-    var Austria = getEmission(sector, "Austria", yearr)['CO2'];//AT
-    var Iceland = getEmission(sector, "Iceland", yearr)['CO2'];//is
+    countries['DK'] = getEmission(sector, "Denmark", yearr)['CO2'];//DK
+    countries['BG'] = getEmission(sector, "Bulgaria", yearr)['CO2'];//BG
+    countries['LI'] = getEmission(sector, "Liechtenstein", yearr)['CO2'];//LI
+    countries['SK'] = getEmission(sector, "Slovakia", yearr)['CO2'];//SK
+    countries['FI'] = getEmission(sector, "Finland", yearr)['CO2'];//FI 
+    countries['SE'] = getEmission(sector, "Sweden", yearr)['CO2'];//SE
+    countries['CZ'] = getEmission(sector, "Czechia", yearr)['CO2'];//CZ
+    countries['PT'] = getEmission(sector, "Portugal", yearr)['CO2'];//PT
+    countries['NL'] = getEmission(sector, "Netherlands", yearr)['CO2'];//NL 
+    countries['NO'] = getEmission(sector, "Norway", yearr)['CO2'];//NO 
+    countries['HR'] = getEmission(sector, "Croatia", yearr)['CO2'];//HR
+    countries['ES'] = getEmission(sector, "Spain", yearr)['CO2'];//ES
+    countries['FR'] = getEmission(sector, "France", yearr)['CO2'];//FR
+    countries['EE'] = getEmission(sector, "Estonia", yearr)['CO2'];//ES
+    countries['LU'] = getEmission(sector, "Luxembourg", yearr)['CO2'];//LU
+    countries['SI'] = getEmission(sector, "Slovenia", yearr)['CO2'];//SI
+    countries['IE'] = getEmission(sector, "Ireland", yearr)['CO2'];//IE
+    countries['CY'] = getEmission(sector, "Cyprus", yearr)['CO2'];//CY  
+    countries['LT'] = getEmission(sector, "Lithuania", yearr)['CO2'];//LT
+    countries['LV'] = getEmission(sector, "Latvia", yearr)['CO2'];//LV
+    countries['MT'] = getEmission(sector, "Malta", yearr)['CO2'];//MT 
+    countries['GR'] = getEmission(sector, "Greece", yearr)['CO2'];//GR
+    countries['GB'] = getEmission(sector, "United Kingdom", yearr)['CO2'];//GB
+    countries['AT'] = getEmission(sector, "Austria", yearr)['CO2'];//AT
+    countries['IS'] = getEmission(sector, "Iceland", yearr)['CO2'];//is
     //console.log(Belgium['CO2']);
 
-  var sum = (Belgium + Germany + Poland + Romania + Italy + Hungary + Denmark + Bulgaria + Liechtenstein +
-  Slovakia + Finland + Sweden+Czechia+Portugal+Netherlands+Norway+Croatia+Spain+France+
-  Estonia + Luxembourg+Slovenia+Ireland+Cyprus+Lithuania+Latvia+Malta+Greece+United_Kingdom+Austria + Iceland)/30;
+
+  var sum = Object.values(countries).reduce(function (accumulator, value) {
+    return accumulator + value
+  }, 0)/30;
   var level1 = 2 * sum/ 3 ;
   var level2 = sum;
-  console.log(sum);
 
-  if (Iceland < level1) {
-    map.updateChoropleth({'IS': { fillKey: 'MINOR' }});
-  }
-  else if (Iceland < level2)  {
-    map.updateChoropleth({'IS': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'IS': { fillKey: 'MAJOR' }});
-  }
-
-  if (Germany < level1) {
-    map.updateChoropleth({'DE': { fillKey: 'MINOR' }});
-  }
-  else if (Germany < level2)  {
-    map.updateChoropleth({'DE': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'DE': { fillKey: 'MAJOR' }});
-  }
-
-  if (Belgium < level1) {
-    map.updateChoropleth({'BE': { fillKey: 'MINOR' }});
-  }
-  else if (Belgium < level2)  {
-    map.updateChoropleth({'BE': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'BE': { fillKey: 'MAJOR' }});
-  }
-  if (France < level1) {
-    map.updateChoropleth({'FR': { fillKey: 'MINOR' }});
-  }
-  else if (France < level2)  {
-    map.updateChoropleth({'FR': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'FR': { fillKey: 'MAJOR' }});
-  }
-  if (Poland < level1) {
-    map.updateChoropleth({'PL': { fillKey: 'MINOR' }});
-  }
-  else if (Poland < level2)  {
-    map.updateChoropleth({'PL': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'PL': { fillKey: 'MAJOR' }});
-  }
-  if (Hungary < level1) {
-    map.updateChoropleth({'HU': { fillKey: 'MINOR' }});
-  }
-  else if (Hungary < level2)  {
-    map.updateChoropleth({'HU': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'HU': { fillKey: 'MAJOR' }});
-  }
-  if (Italy < level1) {
-    map.updateChoropleth({'IT': { fillKey: 'MINOR' }});
-  }
-  else if (Italy < level2)  {
-    map.updateChoropleth({'IT': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'IT': { fillKey: 'MAJOR' }});
-  }
-  if (Romania < level1) {
-    map.updateChoropleth({'RO': { fillKey: 'MINOR' }});
-  }
-  else if (Romania < level2)  {
-    map.updateChoropleth({'RO': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'RO': { fillKey: 'MAJOR' }});
-  }
-
-  if (Bulgaria < level1) {
-    map.updateChoropleth({'BG': { fillKey: 'MINOR' }});
-  }
-  else if (Bulgaria < level2)  {
-    map.updateChoropleth({'BG': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'BG': { fillKey: 'MAJOR' }});
-  }
-
-  if (Liechtenstein < level1) {
-    map.updateChoropleth({'LI': { fillKey: 'MINOR' }});
-  }
-  else if (Liechtenstein < level2)  {
-    map.updateChoropleth({'LI': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'LI': { fillKey: 'MAJOR' }});
-  }
-
-  if (Slovakia < level1) {
-    map.updateChoropleth({'SK': { fillKey: 'MINOR' }});
-  }
-  else if (Slovakia < level2)  {
-    map.updateChoropleth({'SK': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'SK': { fillKey: 'MAJOR' }});
-  }
-
-  if (Finland < level1) {
-    map.updateChoropleth({'FI': { fillKey: 'MINOR' }});
-  }
-  else if (Finland < level2)  {
-    map.updateChoropleth({'FI': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'FI': { fillKey: 'MAJOR' }});
-  }
-
-  if (Sweden < level1) {
-    map.updateChoropleth({'SE': { fillKey: 'MINOR' }});
-  }
-  else if (Sweden < level2)  {
-    map.updateChoropleth({'SE': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'SE': { fillKey: 'MAJOR' }});
-  }
-
-  if (Czechia < level1) {
-    map.updateChoropleth({'CZ': { fillKey: 'MINOR' }});
-  }
-  else if (Czechia < level2)  {
-    map.updateChoropleth({'CZ': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'CZ': { fillKey: 'MAJOR' }});
-  }
-
-  if (Portugal < level1) {
-    map.updateChoropleth({'PT': { fillKey: 'MINOR' }});
-  }
-  else if (Portugal < level2)  {
-    map.updateChoropleth({'PT': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'PT': { fillKey: 'MAJOR' }});
-  }
-
-  if (Norway < level1) {
-    map.updateChoropleth({'NO': { fillKey: 'MINOR' }});
-  }
-  else if (Norway < level2)  {
-    map.updateChoropleth({'NO': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'NO': { fillKey: 'MAJOR' }});
-  }
-
-  if (Netherlands < level1) {
-    map.updateChoropleth({'NL': { fillKey: 'MINOR' }});
-  }
-  else if (Netherlands < level2)  {
-    map.updateChoropleth({'NL': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'NL': { fillKey: 'MAJOR' }});
-  }
-
-  if (Croatia < level1) {
-    map.updateChoropleth({'HR': { fillKey: 'MINOR' }});
-  }
-  else if (Croatia < level2)  {
-    map.updateChoropleth({'HR': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'HR': { fillKey: 'MAJOR' }});
-  }
-
-  if (Spain < level1) {
-    map.updateChoropleth({'ES': { fillKey: 'MINOR' }});
-  }
-  else if (Spain < level2)  {
-    map.updateChoropleth({'ES': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'ES': { fillKey: 'MAJOR' }});
-  }
-
-  if (France < level1) {
-    map.updateChoropleth({'FR': { fillKey: 'MINOR' }});
-  }
-  else if (France < level2)  {
-    map.updateChoropleth({'FR': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'FR': { fillKey: 'MAJOR' }});
-  }
-
-  if (Estonia < level1) {
-    map.updateChoropleth({'EE': { fillKey: 'MINOR' }});
-  }
-  else if (Estonia < level2)  {
-    map.updateChoropleth({'EE': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'EE': { fillKey: 'MAJOR' }});
-  }
-
-  if (Luxembourg < level1) {
-    map.updateChoropleth({'LU': { fillKey: 'MINOR' }});
-  }
-  else if (Luxembourg < level2)  {
-    map.updateChoropleth({'LU': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'LU': { fillKey: 'MAJOR' }});
-  }
-
-  if (Slovenia < level1) {
-    map.updateChoropleth({'SI': { fillKey: 'MINOR' }});
-  }
-  else if (Slovenia < level2)  {
-    map.updateChoropleth({'SI': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'SI': { fillKey: 'MAJOR' }});
-  }
-
-  if (Ireland < level1) {
-    map.updateChoropleth({'IE': { fillKey: 'MINOR' }});
-  }
-  else if (Ireland < level2)  {
-    map.updateChoropleth({'IE': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'IE': { fillKey: 'MAJOR' }});
-  }
-
-  if (Cyprus < level1) {
-    map.updateChoropleth({'CY': { fillKey: 'MINOR' }});
-  }
-  else if (Cyprus < level2)  {
-    map.updateChoropleth({'CY': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'CY': { fillKey: 'MAJOR' }});
-  }
-
-  if (Lithuania < level1) {
-    map.updateChoropleth({'LT': { fillKey: 'MINOR' }});
-  }
-  else if (Lithuania < level2)  {
-    map.updateChoropleth({'LT': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'LT': { fillKey: 'MAJOR' }});
-  }
-
-  if (Romania < level1) {
-    map.updateChoropleth({'RO': { fillKey: 'MINOR' }});
-  }
-  else if (Romania < level2)  {
-    map.updateChoropleth({'RO': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'RO': { fillKey: 'MAJOR' }});
-  }
-
-  if (Latvia < level1) {
-    map.updateChoropleth({'LV': { fillKey: 'MINOR' }});
-  }
-  else if (Latvia < level2)  {
-    map.updateChoropleth({'LV': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'LV': { fillKey: 'MAJOR' }});
-  }
-
-  if (Malta < level1) {
-    map.updateChoropleth({'MT': { fillKey: 'MINOR' }});
-  }
-  else if (Malta < level2)  {
-    map.updateChoropleth({'MT': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'MT': { fillKey: 'MAJOR' }});
-  }
-
-  if (Greece < level1) {
-    map.updateChoropleth({'GR': { fillKey: 'MINOR' }});
-  }
-  else if (Greece < level2)  {
-    map.updateChoropleth({'GR': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'GR': { fillKey: 'MAJOR' }});
-  }
-
-  if (United_Kingdom < level1) {
-    map.updateChoropleth({'GB': { fillKey: 'MINOR' }});
-  }
-  else if (United_Kingdom < level2)  {
-    map.updateChoropleth({'GB': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'GB': { fillKey: 'MAJOR' }});
-  }
-
-  if (Austria < level1) {
-    map.updateChoropleth({'AT': { fillKey: 'MINOR' }});
-  }
-  else if (Austria < level2)  {
-    map.updateChoropleth({'AT': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'AT': { fillKey: 'MAJOR' }});
-  }
-
-  if (Denmark < level1) {
-    map.updateChoropleth({'DK': { fillKey: 'MINOR' }});
-  }
-  else if (Denmark < level2)  {
-    map.updateChoropleth({'DK': { fillKey: 'MEDIUM' }});
-  }
-  else {
-    map.updateChoropleth({'DK': { fillKey: 'MAJOR' }});
-  }
+  Object.keys(countries).forEach(c => {
+    let value = countries[c];
+    if (value < level1) {
+      map.updateChoropleth({[c]: { fillKey: 'MINOR' }});
+    }
+    else if (value < level2)  {
+      map.updateChoropleth({[c]: { fillKey: 'MEDIUM' }});
+    }
+    else {
+      map.updateChoropleth({[c]: { fillKey: 'MAJOR' }});
+    }
+  })
   
   });
     gTime.call(sliderTime);
