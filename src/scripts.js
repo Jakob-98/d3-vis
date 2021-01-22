@@ -115,6 +115,7 @@ let initMap = function(){
       datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
           console.log(geography);
           // alert(geography.properties.name);
+          updateCountry(geography.properties.name);
           map.updateChoropleth({
             [geography.id]: {fillKey: 'SELECTED'}
           });
@@ -392,6 +393,7 @@ let initTimeLine = function(){
   .on('onchange', val => {
     // d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
     var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
+    updateYear(yearr);
     var countries = {};
     
     countries['BE'] = getEmission(sector, "Belgium", yearr)['CO2'];
