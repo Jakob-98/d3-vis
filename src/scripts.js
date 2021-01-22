@@ -173,164 +173,19 @@ let initChart = function(){
 
 // /// Slider
 
-
-    // var formatDateIntoYear = d3.time.format("%Y");
-    // var formatDate = d3.time.format("%b %Y");
-    // var parseDate = d3.time.format("%m/%d/%y").parse;
-
-    // var startDate = new Date("2004-11-01"),
-    //     endDate = new Date("2017-04-01");
-
-    // var margin = {top:50, right:50, bottom:0, left:50},
-    //     width = 960 - margin.left - margin.right,
-    //     height = 500 - margin.top - margin.bottom;
-
-    // var svg = d3.select("#vis")
-    //     .append("svg")
-    //     .attr("width", width + margin.left + margin.right)
-    //     .attr("height", height + margin.top + margin.bottom);  
+var dataTime = d3version6.range(0, 16).map(function(d) {
+  return new Date(2005 + d, 1, 1);
+});
 
 
-    // var moving = false;
-    // var currentValue = 0;
-    // var targetValue = width;
+var gTime = d3version6
+  .select('div#slider-time')
+  .append('svg')
+  .attr('width', 800)
+  .attr('height', 200)
+  .append('g')
+  .attr('transform', 'translate(50,50)');
 
-    // var playButton = d3.select("#play-button");
-        
-    // var x = d3.time.scale()
-    //     .domain([startDate, endDate])
-    //     .range([0, targetValue])
-    //     .clamp(true);
-
-    // var slider = svg.append("g")
-    //     .attr("class", "slider")
-    //     .attr("transform", "translate(" + margin.left + "," + height/5 + ")");
-
-    // slider.append("line")
-    //     .attr("class", "track")
-    //     .attr("x1", x.range()[0])
-    //     .attr("x2", x.range()[1])
-    // .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    //     .attr("class", "track-inset")
-    // .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    //     .attr("class", "track-overlay")
-    //     .call(d3.drag()
-    //         .on("start.interrupt", function() { slider.interrupt(); })
-    //         .on("start drag", function() {
-    //         currentValue = d3.event.x;
-    //         update(x.invert(currentValue)); 
-    //         })
-    //     );
-
-    // slider.insert("g", ".track-overlay")
-    //     .attr("class", "ticks")
-    //     .attr("transform", "translate(0," + 18 + ")")
-    // .selectAll("text")
-    //     .data(x.ticks(10))
-    //     .enter()
-    //     .append("text")
-    //     .attr("x", x)
-    //     .attr("y", 10)
-    //     .attr("text-anchor", "middle")
-    //     .text(function(d) { return formatDateIntoYear(d); });
-
-    // var handle = slider.insert("circle", ".track-overlay")
-    //     .attr("class", "handle")
-    //     .attr("r", 9);
-
-    // var label = slider.append("text")  
-    //     .attr("class", "label")
-    //     .attr("text-anchor", "middle")
-    //     .text(formatDate(startDate))
-    //     .attr("transform", "translate(0," + (-25) + ")")
-
-    
-    // ////////// plot //////////
-
-    // var dataset;
-
-    // var plot = svg.append("g")
-    //     .attr("class", "plot")
-    //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    // d3.csv("./dataset/circles.csv", prepare, function(data) {
-    // dataset = data;
-    // drawPlot(dataset);
-    
-    // playButton
-    //     .on("click", function() {
-    //     var button = d3.select(this);
-    //     if (button.text() == "Pause") {
-    //     moving = false;
-    //     clearInterval(timer);
-    //     // timer = 0;
-    //     button.text("Play");
-    //     } else {
-    //     moving = true;
-    //     timer = setInterval(step, 100);
-    //     button.text("Pause");
-    //     }
-    //     console.log("Slider moving: " + moving);
-    // })
-    // })
-
-    // function prepare(d) {
-    // d.id = d.id;
-    // d.date = parseDate(d.date);
-    // return d;
-    // }
-    
-    // function step() {
-    // update(x.invert(currentValue));
-    // currentValue = currentValue + (targetValue/151);
-    // if (currentValue > targetValue) {
-    //     moving = false;
-    //     currentValue = 0;
-    //     clearInterval(timer);
-    //     // timer = 0;
-    //     playButton.text("Play");
-    //     console.log("Slider moving: " + moving);
-    // }
-    // }
-
-    // function drawPlot(data) {
-    // var locations = plot.selectAll(".location")
-    //     .data(data);
-
-    // // if filtered dataset has more circles than already existing, transition new ones in
-    // locations.enter()
-    //     .append("circle")
-    //     .attr("class", "location")
-    //     .attr("cx", function(d) { return x(d.date); })
-    //     .attr("cy", height/2)
-    //     .style("fill", function(d) { return d3.hsl(d.date/1000000000, 0.8, 0.8)})
-    //     .style("stroke", function(d) { return d3.hsl(d.date/1000000000, 0.7, 0.7)})
-    //     .style("opacity", 0.5)
-    //     .attr("r", 8)
-    //     .transition()
-    //     .duration(400)
-    //     .attr("r", 25)
-    //         .transition()
-    //         .attr("r", 8);
-
-    // // if filtered dataset has less circles than already existing, remove excess
-    // locations.exit()
-    //     .remove();
-    // }
-
-    // function update(h) {
-    // // update position and text of label according to slider scale
-    // handle.attr("cx", x(h));
-    // label
-    //     .attr("x", x(h))
-    //     .text(formatDate(h));
-
-    // // filter data set and redraw plot
-    // var newData = dataset.filter(function(d) {
-    //     return d.date < h;
-    // })
-    // drawPlot(newData);
-    // }
 
 /// BEGIN zooi voor piechart
 let chartETS = '4. Total surrendered units';
@@ -523,6 +378,387 @@ $(document).ready(function(){
     initMap();
     initChart();
     document.addEventListener('mousemove', onMouseUpdate, false);
+
+  var slide = d3version6
+  .sliderBottom()
+  .min(d3version6.min(dataTime))
+  .max(d3version6.max(dataTime))
+  .step(1000 * 60 * 60 * 24 * 365)
+  .width(600)
+  .tickFormat(d3version6.timeFormat('%Y'))
+  .tickValues(dataTime)
+  .default(new Date(2005, 1, 1))
+  .on('onchange', val => {
+     d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
+    var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
+    var Belgium = getEmission(sector, "Belgium", yearr)['CO2'];
+    var Germany = getEmission(sector, "Germany", yearr)['CO2'];
+    var Poland = getEmission(sector, "Poland", yearr)['CO2']; //PL
+    var Romania= getEmission(sector, "Romania", yearr)['CO2']; //RO
+    var Italy = getEmission(sector, "Italy", yearr)['CO2'];//IT
+    var Hungary = getEmission(sector, "Hungary", yearr)['CO2'];//HU
+
+    var Denmark = getEmission(sector, "Denmark", yearr)['CO2'];//DK
+    var Bulgaria = getEmission(sector, "Bulgaria", yearr)['CO2'];//BG
+    var Liechtenstein = getEmission(sector, "Liechtenstein", yearr)['CO2'];//LI
+    var Slovakia = getEmission(sector, "Slovakia", yearr)['CO2'];//SK
+    var Finland = getEmission(sector, "Finland", yearr)['CO2'];//FI 
+    var Sweden = getEmission(sector, "Sweden", yearr)['CO2'];//SE
+    var Czechia = getEmission(sector, "Czechia", yearr)['CO2'];//CZ
+    var Portugal = getEmission(sector, "Portugal", yearr)['CO2'];//PT
+    var Netherlands = getEmission(sector, "Netherlands", yearr)['CO2'];//NL 
+    var Norway = getEmission(sector, "Norway", yearr)['CO2'];//NO 
+    var Croatia = getEmission(sector, "Croatia", yearr)['CO2'];//HR
+    var Spain = getEmission(sector, "Spain", yearr)['CO2'];//ES
+    var France = getEmission(sector, "France", yearr)['CO2'];//FR
+    var Estonia = getEmission(sector, "Estonia", yearr)['CO2'];//ES
+    var Luxembourg = getEmission(sector, "Luxembourg", yearr)['CO2'];//LU
+    var Slovenia = getEmission(sector, "Slovenia", yearr)['CO2'];//SI
+    var Ireland = getEmission(sector, "Ireland", yearr)['CO2'];//IE
+    var Cyprus = getEmission(sector, "Cyprus", yearr)['CO2'];//CY  
+    var Lithuania = getEmission(sector, "Lithuania", yearr)['CO2'];//LT
+    var Latvia = getEmission(sector, "Latvia", yearr)['CO2'];//LV
+    var Malta = getEmission(sector, "Malta", yearr)['CO2'];//MT 
+    var Greece = getEmission(sector, "Greece", yearr)['CO2'];//GR
+    var United_Kingdom = getEmission(sector, "United Kingdom", yearr)['CO2'];//GB
+    var Austria = getEmission(sector, "Austria", yearr)['CO2'];//AT
+    var Iceland = getEmission(sector, "Iceland", yearr)['CO2'];//is
+    //console.log(Belgium['CO2']);
+
+  var sum = (Belgium + Germany + Poland + Romania + Italy + Hungary + Denmark + Bulgaria + Liechtenstein +
+  Slovakia + Finland + Sweden+Czechia+Portugal+Netherlands+Norway+Croatia+Spain+France+
+  Estonia + Luxembourg+Slovenia+Ireland+Cyprus+Lithuania+Latvia+Malta+Greece+United_Kingdom+Austria + Iceland)/30;
+  var level1 = 2 * sum/ 3 ;
+  var level2 = sum;
+  console.log(sum);
+
+  if (Iceland < level1) {
+    map.updateChoropleth({'IS': { fillKey: 'MINOR' }});
+  }
+  else if (Iceland < level2)  {
+    map.updateChoropleth({'IS': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'IS': { fillKey: 'MAJOR' }});
+  }
+
+  if (Germany < level1) {
+    map.updateChoropleth({'DE': { fillKey: 'MINOR' }});
+  }
+  else if (Germany < level2)  {
+    map.updateChoropleth({'DE': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'DE': { fillKey: 'MAJOR' }});
+  }
+
+  if (Belgium < level1) {
+    map.updateChoropleth({'BE': { fillKey: 'MINOR' }});
+  }
+  else if (Belgium < level2)  {
+    map.updateChoropleth({'BE': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'BE': { fillKey: 'MAJOR' }});
+  }
+  if (France < level1) {
+    map.updateChoropleth({'FR': { fillKey: 'MINOR' }});
+  }
+  else if (France < level2)  {
+    map.updateChoropleth({'FR': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'FR': { fillKey: 'MAJOR' }});
+  }
+  if (Poland < level1) {
+    map.updateChoropleth({'PL': { fillKey: 'MINOR' }});
+  }
+  else if (Poland < level2)  {
+    map.updateChoropleth({'PL': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'PL': { fillKey: 'MAJOR' }});
+  }
+  if (Hungary < level1) {
+    map.updateChoropleth({'HU': { fillKey: 'MINOR' }});
+  }
+  else if (Hungary < level2)  {
+    map.updateChoropleth({'HU': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'HU': { fillKey: 'MAJOR' }});
+  }
+  if (Italy < level1) {
+    map.updateChoropleth({'IT': { fillKey: 'MINOR' }});
+  }
+  else if (Italy < level2)  {
+    map.updateChoropleth({'IT': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'IT': { fillKey: 'MAJOR' }});
+  }
+  if (Romania < level1) {
+    map.updateChoropleth({'RO': { fillKey: 'MINOR' }});
+  }
+  else if (Romania < level2)  {
+    map.updateChoropleth({'RO': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'RO': { fillKey: 'MAJOR' }});
+  }
+
+  if (Bulgaria < level1) {
+    map.updateChoropleth({'BG': { fillKey: 'MINOR' }});
+  }
+  else if (Bulgaria < level2)  {
+    map.updateChoropleth({'BG': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'BG': { fillKey: 'MAJOR' }});
+  }
+
+  if (Liechtenstein < level1) {
+    map.updateChoropleth({'LI': { fillKey: 'MINOR' }});
+  }
+  else if (Liechtenstein < level2)  {
+    map.updateChoropleth({'LI': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'LI': { fillKey: 'MAJOR' }});
+  }
+
+  if (Slovakia < level1) {
+    map.updateChoropleth({'SK': { fillKey: 'MINOR' }});
+  }
+  else if (Slovakia < level2)  {
+    map.updateChoropleth({'SK': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'SK': { fillKey: 'MAJOR' }});
+  }
+
+  if (Finland < level1) {
+    map.updateChoropleth({'FI': { fillKey: 'MINOR' }});
+  }
+  else if (Finland < level2)  {
+    map.updateChoropleth({'FI': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'FI': { fillKey: 'MAJOR' }});
+  }
+
+  if (Sweden < level1) {
+    map.updateChoropleth({'SE': { fillKey: 'MINOR' }});
+  }
+  else if (Sweden < level2)  {
+    map.updateChoropleth({'SE': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'SE': { fillKey: 'MAJOR' }});
+  }
+
+  if (Czechia < level1) {
+    map.updateChoropleth({'CZ': { fillKey: 'MINOR' }});
+  }
+  else if (Czechia < level2)  {
+    map.updateChoropleth({'CZ': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'CZ': { fillKey: 'MAJOR' }});
+  }
+
+  if (Portugal < level1) {
+    map.updateChoropleth({'PT': { fillKey: 'MINOR' }});
+  }
+  else if (Portugal < level2)  {
+    map.updateChoropleth({'PT': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'PT': { fillKey: 'MAJOR' }});
+  }
+
+  if (Norway < level1) {
+    map.updateChoropleth({'NO': { fillKey: 'MINOR' }});
+  }
+  else if (Norway < level2)  {
+    map.updateChoropleth({'NO': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'NO': { fillKey: 'MAJOR' }});
+  }
+
+  if (Netherlands < level1) {
+    map.updateChoropleth({'NL': { fillKey: 'MINOR' }});
+  }
+  else if (Netherlands < level2)  {
+    map.updateChoropleth({'NL': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'NL': { fillKey: 'MAJOR' }});
+  }
+
+  if (Croatia < level1) {
+    map.updateChoropleth({'HR': { fillKey: 'MINOR' }});
+  }
+  else if (Croatia < level2)  {
+    map.updateChoropleth({'HR': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'HR': { fillKey: 'MAJOR' }});
+  }
+
+  if (Spain < level1) {
+    map.updateChoropleth({'ES': { fillKey: 'MINOR' }});
+  }
+  else if (Spain < level2)  {
+    map.updateChoropleth({'ES': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'ES': { fillKey: 'MAJOR' }});
+  }
+
+  if (France < level1) {
+    map.updateChoropleth({'FR': { fillKey: 'MINOR' }});
+  }
+  else if (France < level2)  {
+    map.updateChoropleth({'FR': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'FR': { fillKey: 'MAJOR' }});
+  }
+
+  if (Estonia < level1) {
+    map.updateChoropleth({'EE': { fillKey: 'MINOR' }});
+  }
+  else if (Estonia < level2)  {
+    map.updateChoropleth({'EE': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'EE': { fillKey: 'MAJOR' }});
+  }
+
+  if (Luxembourg < level1) {
+    map.updateChoropleth({'LU': { fillKey: 'MINOR' }});
+  }
+  else if (Luxembourg < level2)  {
+    map.updateChoropleth({'LU': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'LU': { fillKey: 'MAJOR' }});
+  }
+
+  if (Slovenia < level1) {
+    map.updateChoropleth({'SI': { fillKey: 'MINOR' }});
+  }
+  else if (Slovenia < level2)  {
+    map.updateChoropleth({'SI': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'SI': { fillKey: 'MAJOR' }});
+  }
+
+  if (Ireland < level1) {
+    map.updateChoropleth({'IE': { fillKey: 'MINOR' }});
+  }
+  else if (Ireland < level2)  {
+    map.updateChoropleth({'IE': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'IE': { fillKey: 'MAJOR' }});
+  }
+
+  if (Cyprus < level1) {
+    map.updateChoropleth({'CY': { fillKey: 'MINOR' }});
+  }
+  else if (Cyprus < level2)  {
+    map.updateChoropleth({'CY': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'CY': { fillKey: 'MAJOR' }});
+  }
+
+  if (Lithuania < level1) {
+    map.updateChoropleth({'LT': { fillKey: 'MINOR' }});
+  }
+  else if (Lithuania < level2)  {
+    map.updateChoropleth({'LT': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'LT': { fillKey: 'MAJOR' }});
+  }
+
+  if (Romania < level1) {
+    map.updateChoropleth({'RO': { fillKey: 'MINOR' }});
+  }
+  else if (Romania < level2)  {
+    map.updateChoropleth({'RO': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'RO': { fillKey: 'MAJOR' }});
+  }
+
+  if (Latvia < level1) {
+    map.updateChoropleth({'LV': { fillKey: 'MINOR' }});
+  }
+  else if (Latvia < level2)  {
+    map.updateChoropleth({'LV': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'LV': { fillKey: 'MAJOR' }});
+  }
+
+  if (Malta < level1) {
+    map.updateChoropleth({'MT': { fillKey: 'MINOR' }});
+  }
+  else if (Malta < level2)  {
+    map.updateChoropleth({'MT': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'MT': { fillKey: 'MAJOR' }});
+  }
+
+  if (Greece < level1) {
+    map.updateChoropleth({'GR': { fillKey: 'MINOR' }});
+  }
+  else if (Greece < level2)  {
+    map.updateChoropleth({'GR': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'GR': { fillKey: 'MAJOR' }});
+  }
+
+  if (United_Kingdom < level1) {
+    map.updateChoropleth({'GB': { fillKey: 'MINOR' }});
+  }
+  else if (United_Kingdom < level2)  {
+    map.updateChoropleth({'GB': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'GB': { fillKey: 'MAJOR' }});
+  }
+
+  if (Austria < level1) {
+    map.updateChoropleth({'AT': { fillKey: 'MINOR' }});
+  }
+  else if (Austria < level2)  {
+    map.updateChoropleth({'AT': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'AT': { fillKey: 'MAJOR' }});
+  }
+
+  if (Denmark < level1) {
+    map.updateChoropleth({'DK': { fillKey: 'MINOR' }});
+  }
+  else if (Denmark < level2)  {
+    map.updateChoropleth({'DK': { fillKey: 'MEDIUM' }});
+  }
+  else {
+    map.updateChoropleth({'DK': { fillKey: 'MAJOR' }});
+  }
+  
+  });
+    gTime.call(sliderTime);
 
     $('#sector').change(function(){
         let selected_value = $("input[name='sector-type']:checked").val();
