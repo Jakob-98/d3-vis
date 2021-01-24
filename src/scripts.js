@@ -468,10 +468,7 @@ $(document).ready(function(){
       updateYear(slider.value);
     }, false);
 
-    $('#sector').change(function(){
-      let selected_value = $("input[name='sector-type']:checked").val();
-      updateSector(selected_value);
-    });
+    // chartETS update
 
     // fire resize function 300ms after last resize event
     var lazyLayout = _.debounce(resizeD3, 300);
