@@ -10,7 +10,7 @@ const years = ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '
 let x, y;
 let currentyear = 2005;
 let chartETS = '2. Verified emissions';
-let piecountry = 'NL';
+let piecountry = "NL";
 
 
 import {data} from './data.js';
@@ -25,16 +25,17 @@ function updateSector(s){
   sector = s;
 }
 
-function updateYear(y){  //TODO add listener
+function updateYear(y){  
   currentyear = y;
   $("#currentyear").text(y);
   createPie(piecountry, chartETS, currentyear);
   updateMapColors();
 }
 
-function updateCountry(c){ //TODO add listener
-  piecountry = c;
+function updateCountry(c){ 
+  piecountry = c.id;
   createPie(piecountry, chartETS, currentyear);
+  $('#chartTitle').text("" + c.properties.name);
 }
 
 function getDataset(country, sector){
@@ -96,8 +97,11 @@ let initMap = function(){
       //dataJson: topoJsonData
     },
     fills: {
-      'MAJOR': '#306596',
-      'MEDIUM': '#0fa0fa',
+      '1': '#00876c',
+      '2': '#89be75',
+      '3': '#ffee8c',
+      '4': '#f59955',
+      '5': '#d43d51',
       'SELECTED': '#bada55', 
       defaultFill: '#ffdd00'
     },
@@ -120,25 +124,15 @@ let initMap = function(){
     done: function(datamap) {
       datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
           console.log(geography);
-          // alert(geography.properties.name);
-          updateCountry(geography.id);
-          // map.updateChoropleth({
-          //   [geography.id]: {fillKey: 'SELECTED'}
-          // }, {reset:true});
+          updateCountry(geography);
       });
       datamap.svg.selectAll('.datamaps-subunit').on('mouseover', function(geography) {
         // remove geometry for performance
         delete geography.geometry;
         mousecountry = geography;
-        // $("#chart").css( {position:"absolute", display: "Inline"});
-          // update chart data
       });
       datamap.svg.selectAll('.datamaps-subunit').on('mouseout', function(geography) {
         mousecountry = "";
-        // $("#chart").css( {position:"absolute", display: "None"});
-        //   console.log(geography);
-        //   $("#chart").css( {position:"absolute", top:event.pageY, left: event.pageX});
-          // update chart data
       });
     }
   });
@@ -158,6 +152,10 @@ let chartoptions = {
         yAxes: [{
             gridLines: {
                 display:false
+            },
+            ticks: {
+              min:0,
+              max:30
             }   
         }]
     },
@@ -229,7 +227,7 @@ let createPie = function(piecountry, chartETS, currentyear){
 
   let piechart = piechartOuterSVG
   .append('g') // append 'g' element to the svg element
-  .attr('transform', 'translate(' + (radius) + ',' + (radius) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
+  .attr('transform', 'translate(' + (radius) + ',' + (radius+100) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
   
   var arc = d3version6.arc()
   .innerRadius(0) // none for pie chart
@@ -412,25 +410,34 @@ let updateMapColors = function(){
     countries['GB'] = getEmission(sector, "GB", currentyear)['CO2'];//GB
     countries['AT'] = getEmission(sector, "AT", currentyear)['CO2'];//AT
     countries['IS'] = getEmission(sector, "IS", currentyear)['CO2'];//is
-    //console.log(Belgium['CO2']);
 
-
-  var sum = Object.values(countries).reduce(function (accumulator, value) {
+  var avg = Object.values(countries).reduce(function (accumulator, value) {
     return accumulator + value
-  }, 0)/30;
-  var level1 = 2 * sum/ 3 ;
-  var level2 = sum;
-
+  }, 0)/Object.keys(countries).length;
+  let min = Math.min(...Object.values(countries));
+  let max = Math.max(...Object.values(countries));
+  let range = max - min;
+  let level1 = 1 * range / 5 + min;
+  let level2 = 2 * range / 5 + min;
+  let level3 = 3 * range / 5 + min;
+  let level4 = 4 * range / 5 + min;
+  console.log(avg + " " + level1 + " "+ level2 +" " +level3 +  " " + level4)
   Object.keys(countries).forEach(c => {
     let value = countries[c];
     if (value < level1) {
-      map.updateChoropleth({[c]: { fillKey: 'MINOR' }});
+      map.updateChoropleth({[c]: { fillKey: '1' }});
     }
     else if (value < level2)  {
-      map.updateChoropleth({[c]: { fillKey: 'MEDIUM' }});
+      map.updateChoropleth({[c]: { fillKey: '2' }});
+    }
+    else if (value < level3)  {
+      map.updateChoropleth({[c]: { fillKey: '3' }});
+    }
+    else if (value < level4)  {
+      map.updateChoropleth({[c]: { fillKey: '4' }});
     }
     else {
-      map.updateChoropleth({[c]: { fillKey: 'MAJOR' }});
+      map.updateChoropleth({[c]: { fillKey: '5' }});
     }
   })
 }
@@ -454,11 +461,7 @@ $(document).ready(function(){
     initChart();
     createPie(piecountry, chartETS, currentyear)
     document.addEventListener('mousemove', onMouseUpdate, false);
-
-    // $("[type=range]").change(function(){
-    //   var newval=$(this).val();
-    //   updateYear(newval);
-    // });
+    updateMapColors();
 
     let slider = document.getElementById("yearslider");
     slider.addEventListener('input', function () {
@@ -467,7 +470,6 @@ $(document).ready(function(){
 
     $('#sector').change(function(){
       let selected_value = $("input[name='sector-type']:checked").val();
-      console.log(selected_value);
       updateSector(selected_value);
     });
 
