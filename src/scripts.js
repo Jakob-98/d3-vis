@@ -3,20 +3,21 @@ var mousecountry = "";
 var oldcountry = ""
 var map;
 var chart;
+var piechartOuterSVG;
 //default sector
 let sector = 'CO2 emission per capita';
 const years = ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
 let x, y;
 let currentyear = 2005;
 let chartETS = '2. Verified emissions';
-let piecountry = 'Netherlands';
+let piecountry = 'NL';
 
 
 import {data} from './data.js';
 
 // Gets the emissions in accordance to data
 function getEmission(sector, country, year){
-  return data.filter(d => d.country == country && d.year == year && d['main activity sector name'].includes(sector))[0];
+  return data.filter(d => d['country_code'] == country && d.year == year && d['main activity sector name'].includes(sector))[0];
   // return emission
 }
 
@@ -26,10 +27,14 @@ function updateSector(s){
 
 function updateYear(y){  //TODO add listener
   currentyear = y;
+  $("#currentyear").text(y);
+  createPie(piecountry, chartETS, currentyear);
+  updateMapColors();
 }
 
 function updateCountry(c){ //TODO add listener
   piecountry = c;
+  createPie(piecountry, chartETS, currentyear);
 }
 
 function getDataset(country, sector){
@@ -54,7 +59,7 @@ function onMouseUpdate(e) {
     
     if (mousecountry != oldcountry){
       oldcountry = mousecountry
-      let dataset = getDataset(mousecountry.properties.name, sector);
+      let dataset = getDataset(mousecountry.id, sector);
       chart.config.data = {
         labels: dataset.map(e => e.year),
         datasets: [{
@@ -76,6 +81,7 @@ function onMouseUpdate(e) {
 
 
 let initMap = function(){
+  document.getElementById('map').innerHTML = "";
   map = new Datamap({
     element: document.getElementById('map'),
     responsive: true,
@@ -115,10 +121,10 @@ let initMap = function(){
       datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
           console.log(geography);
           // alert(geography.properties.name);
-          updateCountry(geography.properties.name);
-          map.updateChoropleth({
-            [geography.id]: {fillKey: 'SELECTED'}
-          });
+          updateCountry(geography.id);
+          // map.updateChoropleth({
+          //   [geography.id]: {fillKey: 'SELECTED'}
+          // }, {reset:true});
       });
       datamap.svg.selectAll('.datamaps-subunit').on('mouseover', function(geography) {
         // remove geometry for performance
@@ -183,7 +189,7 @@ let initChart = function(){
 
 let createPie = function(piecountry, chartETS, currentyear){ 
   let getPieData = function(piecountry, chartETS){
-    let tmp = data.filter(d => d.country == piecountry && d.year == currentyear && d['ETS information'] == chartETS); 
+    let tmp = data.filter(d => d['country_code'] == piecountry && d.year == currentyear && d['ETS information'] == chartETS); 
     console.log(tmp)
     tmp = tmp.map(function(elm) {
       return { label: elm['sector'], count: elm['CO2']};
@@ -198,11 +204,12 @@ let createPie = function(piecountry, chartETS, currentyear){
   dataset = dataset.sort(function(a,b) { return b.count-a.count})
   
   // chart dimensions
-  var width = 700;
-  var height = 500;
+  var width = $('#details').width();
+  var height = $('#details').height();
   
   // a circle chart needs a radius
-  var radius = Math.min(width, height) / 2;
+  var radius = Math.min(width, height) / 4;
+  console.log(radius);
   
   // legend dimensions
   var legendRectSize = 17.5; // defines the size of the colored squares in legend
@@ -214,12 +221,15 @@ let createPie = function(piecountry, chartETS, currentyear){
   
   d3.select("#piechart").html("");
 
-  var svg = d3.select('#piechart') // select element in the DOM with id 'chart'
+  piechartOuterSVG = d3.select('#piechart') // select element in the DOM with id 'chart'
   .append('svg') // append an svg element to the element we've selected
-  .attr('width', width + 250) // set the width of the svg element we just added
+  .attr('width', width) // set the width of the svg element we just added
   .attr('height', height) // set the height of the svg element we just added
+  // .attr("preserveAspectRatio", "xMinYMin meet")
+
+  let piechart = piechartOuterSVG
   .append('g') // append 'g' element to the svg element
-  .attr('transform', 'translate(' + (width / 2.75) + ',' + (height / 2) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
+  .attr('transform', 'translate(' + (radius) + ',' + (radius) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
   
   var arc = d3version6.arc()
   .innerRadius(0) // none for pie chart
@@ -262,7 +272,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   });
   
   // creating the chart
-  var path = svg.selectAll('path') // select all path elements inside the svg. specifically the 'g' element. they don't exist yet but they will be created below
+  var path = piechart.selectAll('path') // select all path elements inside the svg. specifically the 'g' element. they don't exist yet but they will be created below
   .data(pie(dataset)) //associate dataset wit he path elements we're about to create. must pass through the pie function. it magically knows how to extract values and bakes it into the pie
   .enter() //creates placeholder nodes for each of the values
   .append('path') // replace placeholders with path elements
@@ -292,7 +302,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   });
   
   // define legend
-  var legend = svg.selectAll('.legend') // selecting elements with class 'legend'
+  var legend = piechart.selectAll('.legend') // selecting elements with class 'legend'
   .data(color.domain()) // refers to an array of labels from our dataset
   .enter() // creates placeholder
   .append('g') // replace placeholders with g elements
@@ -300,7 +310,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   .attr('transform', function(d, i) {                   
     var height = legendRectSize + legendSpacing; // height of element is the height of the colored square plus the spacing      
     var offset =  height * color.domain().length / 2; // vertical offset of the entire legend = height of a single element & half the total number of elements  
-    var horz = 18 * legendRectSize; // the legend is shifted to the left to make room for the text
+    var horz = width / 3; // the legend is shifted to the left to make room for the text
     var vert = i * height - offset; // the top of the element is hifted up or down from the center using the offset defiend earlier and the index of the current element 'i'               
       return 'translate(' + horz + ',' + vert + ')'; //return translation       
    });
@@ -367,67 +377,41 @@ let createPie = function(piecountry, chartETS, currentyear){
 }
 
 
-// Timeline
-let initTimeLine = function(){
-  var dataTime = d3version6.range(0, 16).map(function(d) {
-    return new Date(2005 + d, 1, 1);
-  });
-
-  var gTime = d3version6
-    .select('div#slider-time')
-    .append('svg')
-    .attr('width', 800)
-    .attr('height', 200)
-    .append('g')
-    .attr('transform', 'translate(50,50)');
-
-  var sliderTime = d3version6
-  .sliderBottom()
-  .min(d3version6.min(dataTime))
-  .max(d3version6.max(dataTime))
-  .step(1000 * 60 * 60 * 24 * 365)
-  .width(600)
-  .tickFormat(d3version6.timeFormat('%Y'))
-  .tickValues(dataTime)
-  .default(new Date(2005, 1, 1))
-  .on('onchange', val => {
-    // d3version6.select('p#value-time').text(d3version6.timeFormat('%Y')(sliderTime.value()));
-    var yearr = d3version6.timeFormat('%Y')(sliderTime.value())
-    updateYear(yearr);
-    var countries = {};
+let updateMapColors = function(){
+  var countries = {};
     
-    countries['BE'] = getEmission(sector, "Belgium", yearr)['CO2'];
-    countries['DE'] = getEmission(sector, "Germany", yearr)['CO2'];
-    countries['PL'] = getEmission(sector, "Poland", yearr)['CO2']; //PL
-    countries['RO'] = getEmission(sector, "Romania", yearr)['CO2']; //RO
-    countries['IT'] = getEmission(sector, "Italy", yearr)['CO2'];//IT
-    countries['HU'] = getEmission(sector, "Hungary", yearr)['CO2'];//HU
+    countries['BE'] = getEmission(sector, "BE", currentyear)['CO2'];
+    countries['DE'] = getEmission(sector, "DE", currentyear)['CO2'];
+    countries['PL'] = getEmission(sector, "PL", currentyear)['CO2']; //PL
+    countries['RO'] = getEmission(sector, "RO", currentyear)['CO2']; //RO
+    countries['IT'] = getEmission(sector, "IT", currentyear)['CO2'];//IT
+    countries['HU'] = getEmission(sector, "HU", currentyear)['CO2'];//HU
 
-    countries['DK'] = getEmission(sector, "Denmark", yearr)['CO2'];//DK
-    countries['BG'] = getEmission(sector, "Bulgaria", yearr)['CO2'];//BG
-    countries['LI'] = getEmission(sector, "Liechtenstein", yearr)['CO2'];//LI
-    countries['SK'] = getEmission(sector, "Slovakia", yearr)['CO2'];//SK
-    countries['FI'] = getEmission(sector, "Finland", yearr)['CO2'];//FI 
-    countries['SE'] = getEmission(sector, "Sweden", yearr)['CO2'];//SE
-    countries['CZ'] = getEmission(sector, "Czechia", yearr)['CO2'];//CZ
-    countries['PT'] = getEmission(sector, "Portugal", yearr)['CO2'];//PT
-    countries['NL'] = getEmission(sector, "Netherlands", yearr)['CO2'];//NL 
-    countries['NO'] = getEmission(sector, "Norway", yearr)['CO2'];//NO 
-    countries['HR'] = getEmission(sector, "Croatia", yearr)['CO2'];//HR
-    countries['ES'] = getEmission(sector, "Spain", yearr)['CO2'];//ES
-    countries['FR'] = getEmission(sector, "France", yearr)['CO2'];//FR
-    countries['EE'] = getEmission(sector, "Estonia", yearr)['CO2'];//ES
-    countries['LU'] = getEmission(sector, "Luxembourg", yearr)['CO2'];//LU
-    countries['SI'] = getEmission(sector, "Slovenia", yearr)['CO2'];//SI
-    countries['IE'] = getEmission(sector, "Ireland", yearr)['CO2'];//IE
-    countries['CY'] = getEmission(sector, "Cyprus", yearr)['CO2'];//CY  
-    countries['LT'] = getEmission(sector, "Lithuania", yearr)['CO2'];//LT
-    countries['LV'] = getEmission(sector, "Latvia", yearr)['CO2'];//LV
-    countries['MT'] = getEmission(sector, "Malta", yearr)['CO2'];//MT 
-    countries['GR'] = getEmission(sector, "Greece", yearr)['CO2'];//GR
-    countries['GB'] = getEmission(sector, "United Kingdom", yearr)['CO2'];//GB
-    countries['AT'] = getEmission(sector, "Austria", yearr)['CO2'];//AT
-    countries['IS'] = getEmission(sector, "Iceland", yearr)['CO2'];//is
+    countries['DK'] = getEmission(sector, "DK", currentyear)['CO2'];//DK
+    countries['BG'] = getEmission(sector, "BG", currentyear)['CO2'];//BG
+    countries['LI'] = getEmission(sector, "LI", currentyear)['CO2'];//LI
+    countries['SK'] = getEmission(sector, "SK", currentyear)['CO2'];//SK
+    countries['FI'] = getEmission(sector, "FI", currentyear)['CO2'];//FI 
+    countries['SE'] = getEmission(sector, "SE", currentyear)['CO2'];//SE
+    countries['CZ'] = getEmission(sector, "CZ", currentyear)['CO2'];//CZ
+    countries['PT'] = getEmission(sector, "PT", currentyear)['CO2'];//PT
+    countries['NL'] = getEmission(sector, "NL", currentyear)['CO2'];//NL 
+    countries['NO'] = getEmission(sector, "NO", currentyear)['CO2'];//NO 
+    countries['HR'] = getEmission(sector, "HR", currentyear)['CO2'];//HR
+    countries['ES'] = getEmission(sector, "ES", currentyear)['CO2'];//ES
+    countries['FR'] = getEmission(sector, "FR", currentyear)['CO2'];//FR
+    countries['EE'] = getEmission(sector, "EE", currentyear)['CO2'];//EE
+    countries['LU'] = getEmission(sector, "LU", currentyear)['CO2'];//LU
+    countries['SI'] = getEmission(sector, "SI", currentyear)['CO2'];//SI
+    countries['IE'] = getEmission(sector, "IE", currentyear)['CO2'];//IE
+    countries['CY'] = getEmission(sector, "CY", currentyear)['CO2'];//CY  
+    countries['LT'] = getEmission(sector, "LT", currentyear)['CO2'];//LT
+    countries['LV'] = getEmission(sector, "LV", currentyear)['CO2'];//LV
+    countries['MT'] = getEmission(sector, "MT", currentyear)['CO2'];//MT 
+    countries['GR'] = getEmission(sector, "GR", currentyear)['CO2'];//GR
+    countries['GB'] = getEmission(sector, "GB", currentyear)['CO2'];//GB
+    countries['AT'] = getEmission(sector, "AT", currentyear)['CO2'];//AT
+    countries['IS'] = getEmission(sector, "IS", currentyear)['CO2'];//is
     //console.log(Belgium['CO2']);
 
 
@@ -449,17 +433,37 @@ let initTimeLine = function(){
       map.updateChoropleth({[c]: { fillKey: 'MAJOR' }});
     }
   })
+}
+
+let resizeD3 = function(){
+  // resize piechart, map
+  console.log('resize');
+
+  //resize piechart
+  createPie(piecountry, chartETS, currentyear);
+  // map.resize();
   
-  });
-  gTime.call(sliderTime);
-};
+  let containerw = $('#mapcontainer').width;
+  let containerh = $('#mapcontainer').height;
+  let tmap = d3.select('#mapcontainer');
+  tmap.style('width',parseInt(containerw) + 'px').style('height',parseInt(containerh) + 'px');
+}
 
 $(document).ready(function(){
     initMap();
     initChart();
-    initTimeLine();
-    createPie('Netherlands', chartETS, 2005)
+    createPie(piecountry, chartETS, currentyear)
     document.addEventListener('mousemove', onMouseUpdate, false);
+
+    // $("[type=range]").change(function(){
+    //   var newval=$(this).val();
+    //   updateYear(newval);
+    // });
+
+    let slider = document.getElementById("yearslider");
+    slider.addEventListener('input', function () {
+      updateYear(slider.value);
+    }, false);
 
     $('#sector').change(function(){
       let selected_value = $("input[name='sector-type']:checked").val();
@@ -467,4 +471,7 @@ $(document).ready(function(){
       updateSector(selected_value);
     });
 
+    // fire resize function 300ms after last resize event
+    var lazyLayout = _.debounce(resizeD3, 300);
+    $(window).resize(lazyLayout);
   });
