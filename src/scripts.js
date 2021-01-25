@@ -356,7 +356,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   legend.append('text')                                    
   .attr('x', legendRectSize + legendSpacing)
   .attr('y', legendRectSize - legendSpacing)
-  .text(function(d) { return d.replace(/[0-9]/g, ''); }); // return label
+  .text(function(d) { return d.replace(/\d{1,}\-\d{1,}\s/gm, ''); }); // return label
   
   
   /// END zooi voor piechart
@@ -454,6 +454,44 @@ let resizeD3 = function(){
   let tmap = d3.select('#mapcontainer');
   tmap.style('width',parseInt(containerw) + 'px').style('height',parseInt(containerh) + 'px');
 }
+
+
+
+
+
+
+
+
+
+//dropdown thingy
+
+// let dropdown = $('#sector-dropdown');
+
+// dropdown.empty();
+
+// dropdown.append('<option selected="true" disabled>Choose sector</option>');
+// dropdown.prop('selectedIndex', 0);
+
+// var UniqueNames= $.unique(data.map(function (d) {return d.Country;}));
+// UniqueNames.forEach(function(name){
+//   dropdown.append('<option selected="true" disabled>' + name +  '</option>');
+// });
+
+
+// play button
+$("#play").click(function(){
+  for (let i = 0; i < years.length-1; i++) {
+    setTimeout(() => { 
+      updateYear(years[i]); 
+      document.getElementById("yearslider").value = years[i]
+    }, 1000);
+  }
+  console.log(currentyear)
+});
+
+
+
+
 
 $(document).ready(function(){
     initMap();
