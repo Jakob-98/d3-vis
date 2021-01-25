@@ -1,32 +1,33 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Crimson Text', serif;
   margin:0;
   padding:0;
 }
    
 h1, h2, h3, h4, h5, h6 {
   color:#f0f8ff;
-  /* font-family: 'Crimson Text', serif; */
 }
   
 /* header, footer and split screen */
+div#content{
+  background: radial-gradient(#071629, #060b16); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 div#header{
   width:100%;
   height:65px;
   position:fixed;
   z-index:100;
-  background: linear-gradient(to left, #283E51, #4B79A1); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 } 
   
 div#footer{
-  width:100%;
+  width:100%;   
   height:65px;
   position:fixed;
   bottom:0;
-  background: linear-gradient(to left, #6a8704, #3f4918); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 div#content{
-  background: linear-gradient(to right, #6a8704, #3f4918); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width:100%;
   height:100%;
   position:absolute;
@@ -48,7 +49,7 @@ div#content{
 .split-left {
   right: 40%;
   left: 0;
-  border-right: #000 4px solid;
+  /* border-right: #000 4px solid; */
 }
 
 .split-right {
@@ -59,12 +60,13 @@ div#content{
 
 /* chart on hover */
 #chart-container {
+    padding-top: 10px;
     z-index: 1;
 }
 #chart {
   display:none;
   pointer-events: none;
-  background-color: white;
+  background-color: #0d243f;
   width: 350px;
   height: 350px;
   padding: 5px;
