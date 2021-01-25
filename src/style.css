@@ -221,6 +221,10 @@ input[type=range]::-ms-thumb {
   font-size: 14px;
   right: 150px;
 }
+.legend > text {
+  fill: white;
+  text-transform: capitalize;
+}
 rect {
   cursor: pointer; 
   stroke-width: 2;

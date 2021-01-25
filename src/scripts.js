@@ -18,7 +18,6 @@ import {data} from './data.js';
 // Gets the emissions in accordance to data
 function getEmission(sector, country, year){
   return data.filter(d => d['country_code'] == country && d.year == year && d['main activity sector name'].includes(sector))[0];
-  // return emission
 }
 
 function updateSector(s){
@@ -357,7 +356,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   legend.append('text')                                    
   .attr('x', legendRectSize + legendSpacing)
   .attr('y', legendRectSize - legendSpacing)
-  .text(function(d) { return d; }); // return label
+  .text(function(d) { return d.replace(/[0-9]/g, ''); }); // return label
   
   
   /// END zooi voor piechart
