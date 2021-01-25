@@ -1,5 +1,5 @@
 body {
-  font-family: 'Crimson Text', serif;
+  font-family: 'Yusei Magic', serif;
   margin:0;
   padding:0;
 }
@@ -7,7 +7,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   color:#f0f8ff;
 }
-  
+
+
 /* header, footer and split screen */
 div#content{
   background: radial-gradient(#071629, #060b16); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -61,7 +62,8 @@ div#content{
 /* chart on hover */
 #chart-container {
     padding-top: 10px;
-    z-index: 1;
+    position:relative;
+    z-index: 99 !important;
 }
 #chart {
   display:none;
@@ -267,7 +269,29 @@ rect.disabled {
 }
 
 .footer {
-  padding-top: 100px;
+  padding-top: 50px;
+  padding-bottom:50px;
   text-align: center;
   list-style-type: none;
 }
+
+
+
+
+
+
+
+/* button */
+#play {
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 50px;
+
+  border-color: transparent transparent transparent #141b3d;
+
+  border-style: solid;
+  border-width: 37px 0 37px 60px;
+}
+  
