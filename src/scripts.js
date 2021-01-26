@@ -7,6 +7,18 @@ var piechartOuterSVG;
 //default sector
 let sector = 'CO2 emission per capita';
 const years = ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+const etss = ['2. Verified emissions', '4. Total surrendered units',
+'4.1 Surrendered EU allowances (EUAs and EUAAs)',
+'4.3 Surrendered emission reduction units (ERUs)',
+'1.1 Freely allocated allowances',
+'1.1.1 Free allocation to existing entities (Art. 10a(1))',
+'4.2 Surrendered certified emission reductions (CERs)',
+'1.1.3 Free allocation for modernisation of electricity generation (Art. 10c)',
+'1.2 Correction to freely allocated allowances (not reflected in EUTL)',
+'1.1.2 Free allocation from the new entrants reserve (Art. 10a(7))',
+'3. Estimate to reflect current ETS scope for allowances and emissions',
+'1.3 Allowances auctioned or sold (EUAs and EUAAs)',
+'1. Total allocated allowances (EUA or EUAA)']
 let x, y;
 let currentyear = 2005;
 let chartETS = '2. Verified emissions';
@@ -19,6 +31,14 @@ import {data} from './data.js';
 function getEmission(sector, country, year){
   return data.filter(d => d['country_code'] == country && d.year == year && d['main activity sector name'].includes(sector))[0];
 }
+
+function fillDropdown(){
+  $.each(etss, function() {
+    $('.dropdown-content').append("<p>" + this + "</p>")
+    console.log(this)
+  })
+}
+fillDropdown()
 
 function updateSector(s){
   sector = s;
@@ -45,10 +65,13 @@ function getDataset(country, sector){
   // return emissions
 }
 
+
+
 // FUNCTIONS
 function onMouseUpdate(e) {
   x = e.pageX;
   y = e.pageY;
+  // $('#dropbtn').mouseenter($('#dropdown-content').show()).mouseleave($('#dropdown-content').hide());
   if (mousecountry) {
     $("#chart").css({
       position: "absolute",
