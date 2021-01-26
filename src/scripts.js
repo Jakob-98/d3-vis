@@ -34,14 +34,15 @@ function getEmission(sector, country, year){
 
 function fillDropdown(){
   $.each(etss, function() {
-    $('.dropdown-content').append("<p>" + this + "</p>")
-    console.log(this)
+    $('.dropdown-content').append("<p class='etsdrop'>" + this + "</p>")
   })
 }
 fillDropdown()
 
-function updateSector(s){
-  sector = s;
+
+function updateETS(s){
+  chartETS = s;
+  createPie(piecountry, chartETS, currentyear);
 }
 
 function updateYear(y){  
@@ -93,7 +94,7 @@ function onMouseUpdate(e) {
           data: dataset.map(e => e['CO2'])
         }]
       }
-      chart.options.title.text = 'CO2 emission of: ' + sector + ' in ' + mousecountry.properties.name;
+      chart.options.title.text = sector + ' in ' + mousecountry.properties.name + '(Tonne CO2)';
       chart.update()
     }
   }
@@ -512,6 +513,11 @@ $("#play").click(function(){
   console.log(currentyear)
 });
 
+// dropdown
+$('.etsdrop').click(function(){
+  $('.dropbtn')[0].innerHTML = this.innerHTML;
+  updateETS(this.innerHTML);
+});
 
 
 
