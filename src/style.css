@@ -352,3 +352,8 @@ rect.disabled {
 .dropdown:hover .dropbtn {
   background-color: #174e96;
 }
+
+#detailfooter{
+  position: relative;
+  bottom: 5px;
+}
