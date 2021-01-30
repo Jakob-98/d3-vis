@@ -402,7 +402,7 @@ let createPie = function (piecountry, chartETS, currentyear) {
     else {
         // no data
         d3.select("#piechart").html("");
-        d3.select("#piechart").append('div').html("No data for current year1");
+        d3.select("#piechart").append('p').html("No data for current year1");
     }
 
     /// END zooi voor piechart
