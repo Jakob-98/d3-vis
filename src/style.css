@@ -23,10 +23,10 @@ div#header{
   
 div#footer{
   width:100%;   
-  height:100px;
+  height:90px;
   position:fixed;
   bottom:0;
-
+  padding-top: 10px;
 }
 div#content{
   width:100%;
@@ -42,7 +42,7 @@ div#content{
 
 .split {
   top: 65px;
-  bottom: 65px;
+  bottom: 100px;
   position: absolute;
   padding: 1em;
 }
@@ -96,7 +96,9 @@ div#content{
 
 #timeline{
   color: white;
-  padding-top: 10px;
+  /* padding-top: 10px; */
+  height: 60px;
+  vertical-align: middle;
   margin: auto;
   width: 80%;
 }
@@ -280,7 +282,9 @@ rect.disabled {
 
 
 
-
+#player{
+  height: 60px;
+}
 
 /* button */
 #play {
@@ -288,15 +292,27 @@ rect.disabled {
   background: transparent;
   box-sizing: border-box;
   width: 0;
-  /* height: 50px; */
-
+  vertical-align: middle;
+  height: 60px;
+  transition: 100ms all ease;
+  will-change: border-width;
   border-color: transparent transparent transparent #367ebd;
 
   border-style: solid;
-  border-width: 20px 0 20px 30px;
+  border-width: 29px 0 29px 60px;
 }
   
+#play.paused {
+  border-style: double;
+  border-width: 0px 0 0px 60px;
+}
 
+#play:hover {
+  border-color: transparent transparent transparent #1b8df0;
+}
+#play:active, #play:focus {
+  outline: 0;
+}
 
 
 .dropbtn {

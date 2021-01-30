@@ -524,17 +524,6 @@ let resizeD3 = function(){
 // });
 
 
-// play button
-$("#play").click(function(){
-  for (let i = 0; i < years.length-1; i++) {
-    setTimeout(() => { 
-      updateYear(years[i]); 
-      document.getElementById("yearslider").value = years[i]
-    }, 1000);
-  }
-  console.log(currentyear)
-});
-
 // dropdown
 $('.etsdrop').click(function(){
   $('.dropbtn')[0].innerHTML = this.innerHTML;
@@ -556,7 +545,38 @@ $(document).ready(function(){
       updateYear(slider.value);
     }, false);
 
-    // chartETS update
+
+    // play button
+    let myTimer;
+    let timerRunning = false;
+    $("#play").click(function() {
+        if(timerRunning){
+          // stop
+          timerRunning = false;
+          $("#play").toggleClass('paused');
+          clearInterval (myTimer);
+        }
+        else{
+          //start
+          timerRunning = true;
+          $("#play").toggleClass('paused');
+          clearInterval (myTimer);
+          myTimer = setInterval (function() {
+            var b= document.getElementById("yearslider")
+            var t = (+b.value + 1) % (+b.max + 1);
+            if (t == 0) { t = +b.min; }
+            b.value =  t;
+            updateYear(t);
+          }, 1000);
+        }
+        
+        
+    });
+
+    d3.select("#stop").on("click", function() {
+        clearInterval (myTimer);
+    });
+
 
     // fire resize function 300ms after last resize event
     var lazyLayout = _.debounce(resizeD3, 300);
