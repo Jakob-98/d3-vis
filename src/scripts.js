@@ -245,14 +245,10 @@ let createPie = function(piecountry, chartETS, currentyear){
   var dataset = getPieData(piecountry, chartETS)//.slice(0,10);
   dataset = dataset.sort(function(a,b) { return b.count-a.count})
   
-  // chart dimensions
-  var width = $('#details').width();
-  var height = $('#details').height();
   
   // a circle chart needs a radius
-  var radius = Math.min(width, height) / 4;
-  console.log(radius);
-  
+  var radius = 200;
+  let viewbox = {width: 800, height: (radius*2+10)}
   // legend dimensions
   var legendRectSize = 17.5; // defines the size of the colored squares in legend
   var legendSpacing = 5; // defines spacing between squares
@@ -265,13 +261,12 @@ let createPie = function(piecountry, chartETS, currentyear){
 
   piechartOuterSVG = d3.select('#piechart') // select element in the DOM with id 'chart'
   .append('svg') // append an svg element to the element we've selected
-  .attr('width', width) // set the width of the svg element we just added
-  .attr('height', height) // set the height of the svg element we just added
-  // .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr('viewBox', '0 0 ' + viewbox.width + ' ' + viewbox.height)
+  .attr('id', 'piechartSVG')
 
   let piechart = piechartOuterSVG
   .append('g') // append 'g' element to the svg element
-  .attr('transform', 'translate(' + (radius) + ',' + (radius+100) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
+  .attr('transform', 'translate(' + (radius + 5) + ',' + (radius + 5) + ')'); // our reference is now to the 'g' element. centerting the 'g' element to the svg element
   
   var arc = d3version6.arc()
   .innerRadius(0) // none for pie chart
@@ -342,7 +337,9 @@ let createPie = function(piecountry, chartETS, currentyear){
   tooltip.style('top', (d3.event.layerY + 10) + 'px') // always 10px below the cursor
     .style('left', (d3.event.layerX + 10) + 'px'); // always 10px to the right of the mouse
   });
-  
+
+  viewbox.height = Math.max((legendRectSize + legendSpacing) * color.domain().length, viewbox.height);
+  piechartOuterSVG.attr('viewBox', '0 0 ' + viewbox.width + ' ' + viewbox.height);
   // define legend
   var legend = piechart.selectAll('.legend') // selecting elements with class 'legend'
   .data(color.domain()) // refers to an array of labels from our dataset
@@ -351,12 +348,10 @@ let createPie = function(piecountry, chartETS, currentyear){
   .attr('class', 'legend') // each g is given a legend class
   .attr('transform', function(d, i) {                   
     var height = legendRectSize + legendSpacing; // height of element is the height of the colored square plus the spacing      
-    var offset =  height * color.domain().length / 2; // vertical offset of the entire legend = height of a single element & half the total number of elements  
-    var horz = width / 3; // the legend is shifted to the left to make room for the text
-    var vert = i * height - offset; // the top of the element is hifted up or down from the center using the offset defiend earlier and the index of the current element 'i'               
-      return 'translate(' + horz + ',' + vert + ')'; //return translation       
+    var horz = radius+50; // the legend is shifted to the left to make room for the text
+    var ver = i * height - (radius + 5); // the top of the element is hifted up or down from the center using the offset defiend earlier and the index of the current element 'i'               
+      return 'translate(' + horz + ',' + ver + ')'; //return translation       
    });
-  
   // adding colored squares to legend
   legend.append('rect') // append rectangle squares to legend                                   
   .attr('width', legendRectSize) // width of rect size is defined above                        
@@ -491,10 +486,15 @@ let resizeD3 = function(){
   console.log('resize');
 
   //resize piechart
-  createPie(piecountry, chartETS, currentyear);
-  // $('.datamap')
-  // .attr("preserveAspectRatio", "xMidYMid")
-  // .attr("viewBox", "0 0 " + 800 + " " + 800);
+  // createPie(piecountry, chartETS, currentyear);
+  // document.getElementById('piechartSVG').setAttribute("viewBox", "0 0 " + 800 + " " + 600);
+  // let detailw = $('#details').width();
+  // let detailh = detailw * (600/800);
+  // // $('.datamap').width(parseInt(containerw)).height(parseInt(containerh));
+  // document.getElementById('piechartSVG').setAttribute("width", detailw);
+  // document.getElementById('piechartSVG').setAttribute("height", detailh);
+
+  // map scaling
   document.getElementsByClassName('datamap')[0].setAttribute("viewBox", "0 0 " + 550 + " " + 614);
   let containerw = $('#mapcontainer').width();
   let containerh = $('#mapcontainer').height();

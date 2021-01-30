@@ -2,12 +2,8 @@ body {
   font-family: 'Sans-serif', Arial, Helvetica, sans-serif;
   margin:0;
   padding:0;
+  color: #f0f8ff;
 }
-   
-h1, h2, h3, h4, h5, h6 {
-  color:#f0f8ff;
-}
-
 
 /* header, footer and split screen */
 div#content{
@@ -56,7 +52,7 @@ div#content{
 .split-right {
   right: 0;
   left: 60%;
-  overflow-y: scroll;  
+  overflow-y:auto;  
 }
 
 /* chart on hover */
@@ -243,7 +239,7 @@ rect.disabled {
 /* chart */
 .piecontainer{
   /* max-width: 300px;  */
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
   /* padding-left: -0.1em; */
 }
@@ -254,8 +250,8 @@ rect.disabled {
 
 #piechart {
   /* height: 600px; */
-  margin: 50px 0px 0px 0px;
-  display: block;
+  /* margin: 50px 0px 0px 0px; */
+  /* display: block; */
   /* width: 300px; */
 }
 
@@ -272,7 +268,7 @@ rect.disabled {
   text-align: center;
   top: 95px;
   width: 95px;
-  z-index: 10;
+  z-index: 1000;
 }
 
 
@@ -314,11 +310,11 @@ rect.disabled {
 
 .dropbtn {
   background-color: #0e294d;
-  color: white;
   padding: 5px;
   font-size: 16px;
   border: none;
   cursor: pointer;
+  color: whitesmoke;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -332,6 +328,8 @@ rect.disabled {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
+  max-height: 400px;
+  overflow: auto;
   font-size: 12px;
   min-width: 80px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -340,7 +338,7 @@ rect.disabled {
 
 /* Links inside the dropdown */
 .dropdown-content p {
-  color: black;
+  color: #333;
   padding: 5px;
   margin: 0px 5px;
   text-decoration: none;
