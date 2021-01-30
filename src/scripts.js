@@ -163,18 +163,19 @@ let initMap = function(){
 
 
 let chartoptions = {
-    maintainAspectRatio: false,
-    responsive: false,
+    maintainAspectRatio: true,
+    responsive: true,
+    aspectRatio: 1.2,
     scales: {
         xAxes: [{
             gridLines: {
-                display:false
+                display:true
             },
             beginatzero: true
         }],
         yAxes: [{
             gridLines: {
-                display:false
+                display:true
             },
             ticks: {
               min:0,
@@ -475,7 +476,7 @@ let resizeD3 = function(){
   
   let containerw = $('#mapcontainer').width;
   let containerh = $('#mapcontainer').height;
-  let tmap = d3.select('#mapcontainer');
+  let tmap = d3.select('#map');
   tmap.style('width',parseInt(containerw) + 'px').style('height',parseInt(containerh) + 'px');
 }
 

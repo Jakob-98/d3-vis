@@ -60,17 +60,18 @@ div#content{
 }
 
 /* chart on hover */
-#chart-container {
-    padding-top: 10px;
-    position:relative;
-    z-index: 99 !important;
+#chartcontainer {
+    /* padding-top: 10px; */
+    /* position:relative; */
+    z-index: 10000;
+    max-width: 350px;
+    max-height: 350px;
 }
 #chart {
   display:none;
   pointer-events: none;
   background-color: #0d243f;
-  width: 350px;
-  height: 350px;
+  
   padding: 5px;
   /* border: 2px solid whitesmoke; */
   box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
