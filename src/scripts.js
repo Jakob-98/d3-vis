@@ -243,7 +243,7 @@ let createPie = function (piecountry, chartETS, currentyear) {
 
 
     var dataset = getPieData(piecountry, chartETS)//.slice(0,10);
-    dataset = dataset.sort(function (a, b) { return b.count - a.count })
+    dataset = dataset.sort(function (a, b) { return b.count - a.count }).filter(d => d.count > 0)
     console.log(dataset);
     if (dataset.length > 0) {
 
