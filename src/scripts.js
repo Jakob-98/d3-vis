@@ -460,7 +460,7 @@ let updateMapColors = function(){
     return accumulator + value
   }, 0)/Object.keys(countries).length;
   let min = Math.min(...Object.values(countries));
-  let max = Math.max(...Object.values(countries));
+  let max = Math.max(...Object.values(_.omit(countries, "LU")));
   let range = max - min;
   let level1 = 1 * range / 5 + min;
   let level2 = 2 * range / 5 + min;
