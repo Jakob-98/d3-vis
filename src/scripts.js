@@ -156,7 +156,7 @@ let initMap = function () {
             let w = 800;
             let h = 800;
             var projection = d3.geo.mercator()
-                .center([13, 52])
+                .center([16, 52])
                 .translate([w / 2, h / 2])
                 .scale([w / 1.5]);
             var path = d3.geo.path()
@@ -402,7 +402,10 @@ let createPie = function (piecountry, chartETS, currentyear) {
     else {
         // no data
         d3.select("#piechart").html("");
-        d3.select("#piechart").append('p').html("No data for current year1");
+        d3.select("#piechart")
+        .append('p')
+        .style('color', 'darkgray')
+        .html("No data for " + chartETS + " in " + currentyear + " for " + piecountry);
     }
 
     /// END zooi voor piechart
@@ -490,15 +493,6 @@ let updateMapColors = function () {
 let resizeD3 = function () {
     // resize piechart, map
     console.log('resize');
-
-    //resize piechart
-    // createPie(piecountry, chartETS, currentyear);
-    // document.getElementById('piechartSVG').setAttribute("viewBox", "0 0 " + 800 + " " + 600);
-    // let detailw = $('#details').width();
-    // let detailh = detailw * (600/800);
-    // // $('.datamap').width(parseInt(containerw)).height(parseInt(containerh));
-    // document.getElementById('piechartSVG').setAttribute("width", detailw);
-    // document.getElementById('piechartSVG').setAttribute("height", detailh);
 
     // map scaling
     document.getElementsByClassName('datamap')[0].setAttribute("viewBox", "0 0 " + 550 + " " + 614);

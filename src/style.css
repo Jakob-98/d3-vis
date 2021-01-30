@@ -44,14 +44,14 @@ div#content{
 }
 
 .split-left {
-  right: 40%;
+  right: 45%;
   left: 0;
   /* border-right: #000 4px solid; */
 }
 
 .split-right {
   right: 0;
-  left: 60%;
+  left: 55%;
   overflow-y:auto;  
 }
 
@@ -354,6 +354,5 @@ rect.disabled {
 }
 
 #detailfooter{
-  position: relative;
-  bottom: 5px;
+  font-size: small;
 }
