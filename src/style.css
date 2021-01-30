@@ -248,12 +248,6 @@ rect.disabled {
   text-align: center;
 }
 
-#piechart {
-  /* height: 600px; */
-  /* margin: 50px 0px 0px 0px; */
-  /* display: block; */
-  /* width: 300px; */
-}
 
 /* tooltip */
 .tooltip {
@@ -261,16 +255,15 @@ rect.disabled {
   box-shadow: 0 0 5px #999999;
   color: #333;
   display: none;
-  font-size: 18px;
-  left: 130px;
-  padding: 10px;
+  font-size: 14px;
+  /* left: 130px; */
+  /* padding: 10px; */
   position: absolute;
-  text-align: center;
+  /* text-align: left; */
   top: 95px;
-  width: 95px;
+  width: 150px;
   z-index: 1000;
 }
-
 
 
 

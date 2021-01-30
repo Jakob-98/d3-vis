@@ -278,17 +278,17 @@ let createPie = function(piecountry, chartETS, currentyear){
   
   // define tooltip
   var tooltip = d3.select('#piechart') // select element in the DOM with id 'chart'
-  .append('div') // append a div element to the element we've selected                                    
+  .append('ul') // append a div element to the element we've selected                                    
   .attr('class', 'tooltip'); // add class 'tooltip' on the divs we just selected
   
-  tooltip.append('div') // add divs to the tooltip defined above                            
-  .attr('class', 'label'); // add class 'label' on the selection                         
+  tooltip.append('li') // add divs to the tooltip defined above                            
+  .attr('id', 'label'); // add class 'label' on the selection                         
   
-  tooltip.append('div') // add divs to the tooltip defined above                     
-  .attr('class', 'count'); // add class 'count' on the selection                  
+  tooltip.append('li') // add divs to the tooltip defined above                     
+  .attr('id', 'count'); // add class 'count' on the selection                  
   
-  tooltip.append('div') // add divs to the tooltip defined above  
-  .attr('class', 'percent'); // add class 'percent' on the selection
+  tooltip.append('li') // add divs to the tooltip defined above  
+  .attr('id', 'percent'); // add class 'percent' on the selection
   
   // Confused? see below:
   
@@ -302,7 +302,7 @@ let createPie = function(piecountry, chartETS, currentyear){
   //     </div>
   //   </div>
   // </div>
-  
+  console.log(dataset);
   dataset.forEach(function(d) {
   d.count = + d.count; // calculate count as we iterate through the data
   d.enabled = true; // add enabled property to track which entries are checked
@@ -323,9 +323,9 @@ let createPie = function(piecountry, chartETS, currentyear){
   return (d.enabled) ? d.count : 0; // checking to see if the entry is enabled. if it isn't, we return 0 and cause other percentages to increase                                      
   }));                                                      
   var percent = Math.round(1000 * d.data.count / total) / 10; // calculate percent
-  tooltip.select('.label').html(d.data.label); // set current label           
-  tooltip.select('.count').html(Math.round(d.data.count/10000)); // set current count            
-  tooltip.select('.percent').html(percent + '%'); // set percent calculated above          
+  tooltip.select('#label').html(d.data.label); // set current label           
+  tooltip.select('#count').html(Math.round(d.data.count/1000000) + " Mln. tonne CO2 equivalent"); // set current count            
+  tooltip.select('#percent').html(percent + '%'); // set percent calculated above          
   tooltip.style('display', 'block'); // set display                     
   });                                                           
   
@@ -334,8 +334,8 @@ let createPie = function(piecountry, chartETS, currentyear){
   });
   
   path.on('mousemove', function(d) { // when mouse moves                  
-  tooltip.style('top', (d3.event.layerY + 10) + 'px') // always 10px below the cursor
-    .style('left', (d3.event.layerX + 10) + 'px'); // always 10px to the right of the mouse
+  tooltip.style('top', (d3.event.layerY) + 'px') // always 10px below the cursor
+    .style('left', (d3.event.layerX) + 'px'); // always 10px to the right of the mouse
   });
 
   viewbox.height = Math.max((legendRectSize + legendSpacing) * color.domain().length, viewbox.height);
