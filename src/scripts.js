@@ -77,8 +77,6 @@ function onMouseUpdate(e) {
     // show chart at mouse, depending on location of mouse relative to mapcontainer
     let mapContainer = $('#mapcontainer');
     let chartContainer = $('#chart');
-    let top, left;
-    console.log(y + " mapc"+ mapContainer.offset().top + " + " + mapContainer.height() + " - " + chartContainer.height());
     if(x > mapContainer.offset().left + mapContainer.width() - chartContainer.width()){
       //paint left
       x=x - chartContainer.width();
@@ -129,7 +127,7 @@ let initMap = function(){
   document.getElementById('map').innerHTML = "";
   map = new Datamap({
     element: document.getElementById('map'),
-    responsive: true,
+    responsive: false,
     scope: 'europe',
     geographyConfig: {
       popupOnHover: true,
@@ -155,11 +153,12 @@ let initMap = function(){
         // 'DE': { fillKey: 'MINOR' }
     },
     setProjection: function (element) {
-      var projection = d3.geo.equirectangular()
-        .center([0, 50])
-        .rotate([4, 0])
-        .scale(1000)
-        .translate([element.offsetWidth / 3, element.offsetHeight / 2]);
+      let w = 800;
+      let h = 800;
+      var projection = d3.geo.mercator()
+      .center([13, 52])
+      .translate([w/2, h/2])
+      .scale([w/1.5]);
       var path = d3.geo.path()
         .projection(projection);
       return { path: path, projection: projection };
@@ -493,36 +492,16 @@ let resizeD3 = function(){
 
   //resize piechart
   createPie(piecountry, chartETS, currentyear);
-  // map.resize();
-  
-  let containerw = $('#mapcontainer').width;
-  let containerh = $('#mapcontainer').height;
-  let tmap = d3.select('#map');
-  tmap.style('width',parseInt(containerw) + 'px').style('height',parseInt(containerh) + 'px');
+  // $('.datamap')
+  // .attr("preserveAspectRatio", "xMidYMid")
+  // .attr("viewBox", "0 0 " + 800 + " " + 800);
+  document.getElementsByClassName('datamap')[0].setAttribute("viewBox", "0 0 " + 550 + " " + 614);
+  let containerw = $('#mapcontainer').width();
+  let containerh = $('#mapcontainer').height();
+  // $('.datamap').width(parseInt(containerw)).height(parseInt(containerh));
+  document.getElementsByClassName('datamap')[0].setAttribute("width", containerw);
+  document.getElementsByClassName('datamap')[0].setAttribute("height", containerh);
 }
-
-
-
-
-
-
-
-
-
-//dropdown thingy
-
-// let dropdown = $('#sector-dropdown');
-
-// dropdown.empty();
-
-// dropdown.append('<option selected="true" disabled>Choose sector</option>');
-// dropdown.prop('selectedIndex', 0);
-
-// var UniqueNames= $.unique(data.map(function (d) {return d.Country;}));
-// UniqueNames.forEach(function(name){
-//   dropdown.append('<option selected="true" disabled>' + name +  '</option>');
-// });
-
 
 // dropdown
 $('.etsdrop').click(function(){
@@ -573,11 +552,7 @@ $(document).ready(function(){
         
     });
 
-    d3.select("#stop").on("click", function() {
-        clearInterval (myTimer);
-    });
-
-
+    resizeD3();
     // fire resize function 300ms after last resize event
     var lazyLayout = _.debounce(resizeD3, 300);
     $(window).resize(lazyLayout);
