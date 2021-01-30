@@ -74,6 +74,27 @@ function onMouseUpdate(e) {
   y = e.pageY;
   // $('#dropbtn').mouseenter($('#dropdown-content').show()).mouseleave($('#dropdown-content').hide());
   if (mousecountry) {
+    // show chart at mouse, depending on location of mouse relative to mapcontainer
+    let mapContainer = $('#mapcontainer');
+    let chartContainer = $('#chart');
+    let top, left;
+    console.log(y + " mapc"+ mapContainer.offset().top + " + " + mapContainer.height() + " - " + chartContainer.height());
+    if(x > mapContainer.offset().left + mapContainer.width() - chartContainer.width()){
+      //paint left
+      x=x - chartContainer.width();
+    }
+    else{
+      // paint right
+      x=x;
+    }
+    if(y > mapContainer.offset().top + mapContainer.height() - chartContainer.height()){
+      //paint above
+      y=y-chartContainer.height();
+    }
+    else{
+      // paint below
+      y=y;
+    }
     $("#chart").css({
       position: "absolute",
       top: y-65,
